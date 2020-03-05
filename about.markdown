@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-I'm a fourth year PhD student at the [Reliable Systems group][psy] at the University of Oslo, Norway.  Prior to moving to Norway, I was a student at the University of California, Santa Cruz.  You can check more about my accademic life [here][daniel].
+I'm a fourth year PhD student at the [Reliable Systems group][psy] at the University of Oslo, Norway.  Prior to moving to Norway, I was a student at the University of California, Santa Cruz.  You can check more about my academic life [here][daniel].
 
 Before returning to school at UC Santa Cruz, I worked in Silicon Valley for six years. I was an engineer in the Platform Architecture team at Apple Inc., and in the Larrabee GPGPU Post-Silicon Validation team at Intel.
 
