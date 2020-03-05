@@ -4,15 +4,14 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+I'm a fourth year PhD student at the [Reliable Systems group][psy] at the University of Oslo, Norway.  Prior to moving to Norway, I was a student at the University of California, Santa Cruz.  You can check more about my accademic life [here][daniel].
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+Before returning to school at UC Santa Cruz, I worked in Silicon Valley for six years. I was an engineer in the Platform Architecture team at Apple Inc., and in the Larrabee GPGPU Post-Silicon Validation team at Intel.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+I obtained combined BS/MS degrees in Computer Engineering from the Rochester Institute of Technology (RIT), New York. I am originally from Vitória, ES, Brazil. 
 
-
-[jekyll-organization]: https://github.com/jekyll
+[daniel]: https://folk.uio.no/danielsf
+[psy]: https://www.mn.uio.no/ifi/english/research/groups/psy
+[martin]: https://heim.ifi.uio.no/msteffen
+[olaf]: https://folk.uio.no/olaf
+[jim]: https://users.soe.ucsc.edu/~ejw
