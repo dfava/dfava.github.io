@@ -4,7 +4,9 @@ title:  "Memory models, part I"
 date:   2020-03-05 10:00:00 +0100
 categories: programming-languages
 ---
-Starting from the beginning, we will build ourselves up to discussing a real programming language's memory model and its implementation.  In part II we will discuss the [Golang memory model][gomm], and in part III we will looking into the [Go runtime][goruntime] source code.  But first, a confession.
+In this series of posts, we will visit the concept of *memory models* and will learn what a real-world memory model looks like.  We will then look behind the scenes and into a programming language's implementation and see how the specification of the memory model relates to the language's implementation.  This will take a few posts.
+
+Below we cover some basics like:  what is a memory model and why do these models matter.  We will touch on concepts associated with multi-threading and synchronization, such as the concept of *sequential consistency*, *weak-* or *relaxed-memory*, *atomicity*, etc.  In future posts we will discuss the [Golang memory model][gomm] and we will look into [Go runtime][goruntime] source code.  But first, a confession.
 
 My background is in engineering, not in computer science, and I managed to have a fine career as a techie in Silicon Valley without having to think too hard about memory models.  For the better part of my tenure, I wasn't even aware of the concept.  Turns out memory models are quite interesting.  And it's surprising how anything works given how complex and elusive memory is.  We will have plenty to talk about, even from the smallest examples.  You'll be surprised how much we can unpack from just six lines of code or so.
 
