@@ -119,3 +119,16 @@ How can I then tell how my program will behave when it gets compiled to differen
 [goruntime]: https://golang.org/pkg/runtime
 [lamport79]: https://dl.acm.org/doi/abs/10.1145/3335772.3335935
 [adve95]: https://ieeexplore.ieee.org/abstract/document/546611
+
+## Closing the loop
+
+Going back to the original example and the question of how it behaves.
+Under weak memory, it is possible for the instructions in `T1` to be swapped, for example, if they are deemed to execute faster that way.
+
+```
+     T1         |    T2
+done = true     |   if (done)
+z    = 42       |     print(z)
+```
+
+The single threaded behavior of `T1` is still the same: both `done` and `z` get set to `true` and `42`.  However, clearly the swap breaks the intent of the overall program.  It is possible for `T2` to perceive `done` being `true` and the print-statement to then print the uninitialized value of z.
