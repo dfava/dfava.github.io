@@ -131,4 +131,4 @@ done = true     |   if (done)
 z    = 42       |     print(z)
 ```
 
-The single threaded behavior of `T1` is still the same: both `done` and `z` get set to `true` and `42`.  However, clearly the swap breaks the intent of the overall program.  It is possible for `T2` to perceive `done` being `true` and the print-statement to then print the uninitialized value of z.
+The single threaded behavior of `T1` is still the same: both `done` and `z` get set to `true` and `42`.  However, the swap breaks the intent of the overall program.  It is now possible for `T2` to perceive `done` being `true` and for the print-statement to then print the uninitialized value of z.
