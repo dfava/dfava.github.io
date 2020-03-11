@@ -23,7 +23,7 @@ Defining a reasonable memory model is not easy.  We will look at a real-world me
 
 ## The *happens-before* relation
 
-Software memory models are usually described in terms of the *happens-before* relation.  [Lamport, 1978][lamport78] introduced the concept when studying the relative order of events executed by distributed agents who communicate via message-passing.  Today, the happens-before has become a vehicle for speaking of memory, for defining data races, etc.
+Software memory models are usually described in terms of the *happens-before* relation.  In 1978, Lamport [introduced the concept][lamport78] when studying the relative order of events executed by distributed agents who communicate via message-passing.  Today, the happens-before has become a vehicle for speaking of memory, for defining data races, etc.
 
 The happens-before relation is a mathematical construct.  You shouldn't read "happens-before" and think in terms of natural language.  In other words, don't rely on what you know from the dictionary.  Happens-before does not necessarily imply an order of execution.  Even if `A` is in happens-before relation to `B`, it is still possible for `B` to occur before `A` in an execution.  Hum...  (dramatic pause)  Also, even if `A` necessarily occurs before `B`, it is still possible for `A` and `B` to not be related by happens-before.  Double "hum..."
 
@@ -93,7 +93,7 @@ Let revisit this example from the perspective of the Go memory model.  Again, le
 z    = 42     (A)  |   if (done)     (C)
 done = true   (B)  |     print(z)    (D)
 
-    A ->hb B            C ->hb D
+    A →hb B            C →hb D
 ```
 
 Given rule (1) from the Go memory model, we infer that `A` $\rightarrow_{hb}$ `B` and that `C` $\rightarrow_{hb}$ `D`.  But that is all we get!  There is no way to relate events from thread `T1` to events of thread `T2`.  Given the fact that the instructions in `T1` and `T2` are not related by happens-before, it is possible for `D` to occur before `A` in an execution.
@@ -105,14 +105,14 @@ If we want to fix this program and make sure `T2` will necessarily print `42`, t
 z    = 42     (A)  |   <- c        (C)
 c   <- true   (B)  |   print(z)    (D)
 
-    A ->hb B            C ->hb D
+    A →hb B            C → D
 
-               B ->hb C
+               B →hb C
 ```
 
 The statement `c <- true` with the arrow pointing *into* the channel means that we are sending the value of `true` on the channel.  The statement `<- c` with the arrow pointing *away* from the channel means we are receiving a value from the channel.
 
-Because the receive operation is blocking, meaning, it will block until there is something to receive, we know that the receive will only occur once the sent has occurred.  Given rule (2) from the Go memory model, which says that "a send happens-before the corresponding receive completes", we now have `B` $\rightarrow$ C`.  Rule (2) allowed us to relate events from different thread.
+Because the receive operation is blocking, meaning, it will block until there is something to receive, we know that the receive will only occur once the sent has occurred.  Given rule (2) from the Go memory model, which says that "a send happens-before the corresponding receive completes", we now have `B` $\rightarrow_{hb}$ `C`.  Rule (2) allowed us to relate events from different thread.
 
 Since we have that
 
