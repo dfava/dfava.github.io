@@ -39,7 +39,7 @@ We saw that it is possible for `A` not to be executed before `B`; this observati
 Also, despite of the fact that `B` occurs before `D` in every execution, it does not mean that `B` is in happens-before relation to `D`.  These facts seem confusing now, but hopefully they won't be by the time you finish reading this post.
 
 
-Instead of using your intuition when thinking about *happens-before*, we will apply a definition.  Let us write *happens-before* as $\rightarrow_{hb}$.  Similar to how $<$ is a relation between numbers, the happens-before relation is a relation between events.. between events emanating from a program's execution.
+Instead of using your intuition when thinking about *happens-before*, we will apply a definition.  Let us write *happens-before* as $\rightarrow_{hb}$.  Similar to how $<$ is a relation between numbers, the happens-before relation is a relation between events... between events emanating from a program's execution.
 
 Let $a$, $b$, and $c$ be events.  For example, $a$ could be the reading of a variable by a thread.  Event $b$ could be a write to another variable by another thread.  Event $c$ could be some synchronization operation.  Whatever the case may be, the happens-before relation was originally defined as follows:
 
