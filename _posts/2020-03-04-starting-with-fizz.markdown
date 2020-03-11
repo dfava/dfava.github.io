@@ -6,7 +6,7 @@ categories: recipes
 ---
 Welcome!  I want to share with you some things I've learned about computer science.  I hope to spark conversations, meet people, and have a bit of fun along the way.  I will try to strike a balance between practice and theory, rigor and accessibility.  I hope you'll enjoy.
 
-My first post is about memory models.  Before we start, here is a recipe that is as much revealing about [my origins][vitoria] as it is tasty.  I came to it recently, after being introduced to Aperol.  I call it "Aperinha", since it is a variation on the [caipirinha][caipirinha] recipe.  Without further ado, you'll need:
+My [first post is about memory models][mmp1].  Before we start, here is a recipe that is as much revealing about [my origins][vitoria] as it is tasty.  I came to it recently, after being introduced to Aperol.  I call it "Aperinha", since it is a variation on the [caipirinha][caipirinha] recipe.  Without further ado, you'll need:
 
 - One lemon
 - [Cachaça][cachaca]
@@ -20,6 +20,10 @@ My first post is about memory models.  Before we start, here is a recipe that is
 3. Mix in one shot of cachaça, one shot of Aperol, and dash or sparkling water.
 4. Mix in the ginger honey water.  Add ice and stir.
 
+
+Now that you are feeling good, to the [first post][mmp1].
+
+[mmp1]: /programming-languages/2020/03/05/memory-models.html
 [vitoria]: https://en.wikipedia.org/wiki/Vit%C3%B3ria,_Esp%C3%ADrito_Santo
 [caipirinha]: https://en.wikipedia.org/wiki/Caipirinha
 [cachaca]: https://en.wikipedia.org/wiki/Cacha%C3%A7a

@@ -73,7 +73,7 @@ There are two concepts here: *atomicity* and *program order*.
 
 *Program order* is the order of instructions in the program text.  The compiler is allowed some freedom rearranging instructions, and processors are also allowed some freedom in the order of execution of these instructions.  However, when it comes sequentially consistent memory models, the rules are pretty strict.  Instruction reordering can still happens.  Sequential consistency says that the result must be *as if* instructions were executed in program order.  The compiler or the hardware can still compile/execute instructions out-of-order, as long as we are not able to tell the difference.
 
-Enough with definitions for now.  Let us go back to our original example.  I am going to label the program locations `(A)`, `(B)`, `(C)`, and `(D)`.
+Enough with definitions for now.  Let us go back to our original example.  I am going to label the program locations `A`, `B`, `C`, and `D`.
 
 ```
      T1            |    T2
@@ -81,7 +81,7 @@ z    = 42     (A)  |   if (done)     (C)
 done = true   (B)  |     print(z)    (D)
 ```
 
-In a sequentially consistent world, if `T2` observes the value of `done` to be `true`, then it must be because `T1` set it to true in `(B)`.  Because instructions must appear to have been executed in program order, then it must be that `T1` has already set `z` to `42` in `(A)`.  Therefore, the print statement in `(D)` will necessarily print `42`.  Bingo!  Our program is properly synchronized from the point of view of a sequentially consistent memory model.
+In a sequentially consistent world, if `T2` observes the value of `done` to be `true`, then it must be because `T1` set it to true in `B`.  Because instructions must appear to have been executed in program order, then it must be that `T1` has already set `z` to `42` in `A`.  Therefore, the print statement in `D` will necessarily print `42`.  Bingo!  Our program is properly synchronized from the point of view of a sequentially consistent memory model.
 
 Life is good and we can go home now.  Well... except that most programming languages and processors are not sequentially consistent.  In our ever quest for performance, we have designed compilers and processors to deviate from sequential consistency.  These deviations are also called *relaxations*, as they *relax* the order of instructions and their execution.
 
@@ -132,7 +132,10 @@ z    = 42       |     print(z)
 
 The single threaded behavior of `T1` is still the same: both `done` and `z` get set to `true` and `42`.  However, the swap breaks the intent of the overall program.  It is now possible for `T2` to perceive `done` being `true` and for the print-statement to then print the uninitialized value of z.
 
+When you are ready, in the [next post][mmp2] we will look at a "real-world" memory model and learn how the model helps us properly synchronize the example above.
 
+
+[mmp2]: /programming-languages/2020/03/11/gomm.html
 [gomm]: https://golang.org/ref/mem
 [goruntime]: https://golang.org/pkg/runtime
 [lamport79]: https://dl.acm.org/doi/abs/10.1145/3335772.3335935
