@@ -16,18 +16,21 @@ MathJax.Hub.Config({
 
 # Memory models
 
-We saw at the end of [part I][mmp1] that a compiler can change the order of instructions in a binary, as long as *single threaded semantics* is preserved.  Changes in order can complicate synchronization, especially if we expect to synchronize by reading and writing to variables.  It would be, however, unreasonable to expect a programmer to peek into the compiler in order to know what reorderings are allowed, and whether their programs are still properly synchronized.  Luckily for us, languages come with a *memory model*.  This is a document that specifies a contract between the programmer and the compiler writer.  A programmer hoping for simple explanation of how the language works and exactly how her program behaves.  The compiler writer is looking for freedom in evolving the language and the compiler, freedom to implement existing known optimizations and future optimizations that he may come up with.   These two people, who are at odds, are brought together by the language's memory model.  Regardless of the complexity of the optimizations, a program shall behave as described by the model.  The compiler is free within the bounds of the memory model.
+At the end of the [previous post][mmp1], we saw that a compiler can change the order of instructions in a binary (as long as *single threaded semantics* is preserved).  These changes can break synchronization, especially if we expect to synchronize by reading and writing to variables.
+When pondering about synchronization, it would be unreasonable to expect a programmer to peek into the compiler.  Luckily, languages come with a *memory model*: a document that serves as a contract between the programmer and the compiler.
 
-Defining a reasonable memory model is not easy.  We will look at a real-world memory model soon.  But first, let us cover some of the concepts and terms used in the specification of memory models.
+Programmers expect clear constructs and clear explanations of these constructs.  Compiler writers want freedom to implement optimizations and freedom to evolve a language.   These two camps are at odds and it is the job of a language's memory model to bring these camps together.  Regardless of the complexity of the optimizations, a program shall behave as described by the model.
+
+Defining a reasonable memory model is then juggling act.  We will look at a real-world memory model soon.  But first, let us cover some of the concepts and terms used in the specification of memory models.
 
 
 ## The *happens-before* relation
 
-Software memory models are usually described in terms of the *happens-before* relation.  In 1978, Lamport [introduced the concept][lamport78] when studying the relative order of events executed by distributed agents who communicate via message-passing.  Today, the happens-before has become a vehicle for speaking of memory, for defining data races, etc.
+Software memory models are usually described in terms of the *happens-before* relation.  Lamport [introduced the concept][lamport78] in 1978 when studying the relative order of events in distributed systems.  Today, the happens-before has become a vehicle for speaking of memory, for defining data races, etc.
 
-The happens-before relation is a mathematical construct.  You shouldn't read "happens-before" and think in terms of natural language.  In other words, don't rely on what you know from the dictionary.  Happens-before does not necessarily imply an order of execution.  Even if `A` is in happens-before relation to `B`, it is still possible for `B` to occur before `A` in an execution.  Hum...  (dramatic pause)  Also, even if `A` necessarily occurs before `B`, it is still possible for `A` and `B` to not be related by happens-before.  Double "hum..."
+The happens-before relation is a mathematical construct.  You shouldn't read "happens-before" and think in terms of natural language.  Here are two ways in which our intuition about the words "happens before" breaks.  First, happens-before does not necessarily imply an order of execution.  Even if `A` is in happens-before relation to `B`, it is still possible for `B` to occur before `A` in an execution.  Hum...    Second, even if `A` necessarily occurs before `B`, it is still possible for `A` and `B` to not be related by happens-before.  Double "hum..."
 
-Going back to our original example.
+Going back to our good old example from the [previous post][mmp1].
 
 ```
      T1             |    T2
@@ -35,25 +38,22 @@ z    = 42       (A) |   if (done)    (C)
 done = true     (B) |     print(z)   (D)
 ```
 
-We saw that it is possible for `A` not to be executed before `B`; this observation comes despite of the fact that `A` is in happens-before relation to `B` (as it will become clear later in this post).
-Also, despite of the fact that `B` occurs before `D` in every execution, it does not mean that `B` is in happens-before relation to `D`.  These facts seem confusing now, but hopefully they won't be by the time you finish reading this post.
+We saw that it is possible for `A` not to be executed before `B`; this observation comes despite of the fact that `A` is in happens-before relation to `B` (as it will become clear later).
+Also, even though `B` occurs before `D` in every execution, it does not mean that `B` is in happens-before relation to `D`.  These facts may seem confusing now but, by the time you finish reading, it should all be much clearer.
 
+Instead of using our intuition when thinking about *happens-before*, we will apply a definition.  Let us write *happens-before* as $\rightarrow_{hb}$.  Similar to how $<$ is a relation between numbers, the happens-before relation is a relation between events. To be more precise, $\rightarrow_{hb}$ is a relation between events emanating from a program's execution.
 
-Instead of using your intuition when thinking about *happens-before*, we will apply a definition.  Let us write *happens-before* as $\rightarrow_{hb}$.  Similar to how $<$ is a relation between numbers, the happens-before relation is a relation between events... between events emanating from a program's execution.
-
-Let $a$, $b$, and $c$ be events.  For example, $a$ could be the reading of a variable by a thread.  Event $b$ could be a write to another variable by another thread.  Event $c$ could be some synchronization operation.  Whatever the case may be, the happens-before relation was originally defined as follows:
+Let $a$, $b$, and $c$ be events.  For example, $a$ could be the reading of a variable by a thread.  Event $b$ could be a write to another variable by another thread.  Event $c$ could be some synchronization operation.  The happens-before relation was originally defined in terms of message-passing as follows:
 
 1. If $a$ occurs before $b$ within the same process, then $a \rightarrow_{hb} b$,
-2. If $a$ is a send of a message and $b$ is the reception, then $a \rightarrow_{hb} b$,
+2. If $a$ is the sending of a message and $b$ is the message reception, then $a \rightarrow_{hb} b$,
 3. If $a \rightarrow_{hb} b$ and $b \rightarrow_{hb} c$ then $a \rightarrow_{hb} c$.
 
-The first thing to notice is that happens-before was originally defined by Lamport in terms of message passing.  As mentioned earlier, Lamport was studying distributed systems communicating via messages.  Today, the happens-before relation is also used to described systems that synchronize via locks and other types of primitives.
+Notice that *rule (1)* above captures the preservation of single threaded semantics.  Single thread semantics means that instructions within a thread must appear to be executed in program-order.  The compiler may still reorder read and writes within a thread, as long as the thread can't tell the difference.
 
-The second thing to notice is that *rule (1)* above captures the preservation of single threaded semantics!  Single thread semantics means that instructions within a thread must appear to be executed in program-order.  The compiler may still reorder read and writes within a thread, as long as the thread can't tell the difference.
+Note also that, although happens-before was originally defined by Lamport in terms of message passing, today, the concept is used to described various types of systems.  It is common, for example, to describe locks in terms of the happens-before relation.
 
-Third thing to notice is that, according to the definition above, the only way for two threads to synchronize is by sending to and receiving messages from each other.  We can also define happens-before in the setting of locks.  In that case, synchronization takes place acquiring and releasing locks.
-
-Finally, note that the happens-before relation, like the less-than relation, is transitive.  Since $3 < 5$ and $5 < 10$ then $3 < 10$.
+Finally, *rule (3)* means that the happens-before relation, like the less-than relation, is transitive.  For example, since $3 < 5$ and $5 < 10$ then $3 < 10$.
 
 We are now prepared to look into the [Go memory model][gomm].  But we will have to do a little trespassing...
 
@@ -66,15 +66,15 @@ The [Go memory model][gomm] starts with the following ominous trespassing sign:
 >
 > Don't be clever. 
 
-You want to feel clever?  Come on in!
+Feeling clever?  Then come on in!
 
-The Go memory model lays out the rules for what values can be read from memory given previous writes to memory from different threads (or goroutines as they are called in Go).  It uses the happens-before relation to precisely describe when a read operation can observe given write.  Go defines the happens-before relation slightly different from Lamport.  It essentially says:
+The Go memory model lays out the rules for what values can be read from memory given previous writes to memory from different threads (or goroutines as they are called in Go).  It uses the happens-before relation to precisely describe when a read operation can observe given write.  Go defines the happens-before relation slightly different from Lamport.  It says:
 
 1. Instructions within a thread are in happens-before relation.  (Same as Lamport)
 2. A send onto a channel happens-before the corresponding receive from that channel completes.  (Almost the same as Lamport)
 3. The $k^{th}$ receive from a channel with capacity $C$ happens-before the $(k+C)^{th}$ send onto that channel completes.  (New compared to Lamport)
 
-There are a few other rules, like rules about spawning new threads (or Go routines) etc.  But we don't need to go into them right now.  Rules (1), (2), and (3) above will give us plenty to think about.
+There are a few other rules not mentioned above, such as rules about spawning new threads (or Go routines).  But we don't need them right now.  Rules (1), (2), and (3) above will give us plenty to think about.
 
 Let us revisit our good old example.
 
@@ -110,19 +110,25 @@ c   <- true   (B)  |   print(z)    (D)
                B →hb C
 ```
 
-The statement `c <- true` with the arrow pointing *into* the channel means that we are sending the value of `true` on the channel.  The statement `<- c` with the arrow pointing *away* from the channel means we are receiving a value from the channel.
+The statement `c <- true`, with the arrow pointing *into* the channel, means that we are sending the value of `true` on the channel.  The statement `<- c`, with the arrow pointing *away* from the channel, means we are receiving a value from the channel.
 
-Because the receive operation is blocking, meaning, it will block until there is something to receive, we know that the receive will only occur once the sent has occurred.  Given rule (2) from the Go memory model, which says that "a send happens-before the corresponding receive completes", we now have `B` $\rightarrow_{hb}$ `C`.  Rule (2) allowed us to relate events from different thread.
+Because the receive operation is blocking, meaning, it will block until there is something to be received, we know that the receive will only occur once the sent has occurred.  Given rule (2) from the Go memory model, which says that "a send happens-before the corresponding receive completes", we now have `B` $\rightarrow_{hb}$ `C`.  Rule (2) allowed us to relate events from different thread.
 
-Since we have that
+At this point we have:
 
 - `A` $\rightarrow_{hb}$ `B` by rule 1, program-order
 - `B` $\rightarrow_{hb}$ `C` by rule 2, send happens-before completion of receive
-- `C` $\rightarrow_{hb}$ `D` by rule 1, program order
+- `C` $\rightarrow_{hb}$ `D` by rule 1, program order.
 
-we can then conclude that `A` $\rightarrow_{hb}$ `D` by transitivity of the happens-before relation.  We have thus reasoned that this program will necessarily print `42`.  Neat!
+By transitivity of the happens-before relation, we can then conclude that `A` $\rightarrow_{hb}$ `D`.   We have thus reasoned that this program will necessarily print `42`.  Neat!
 
-To conclude, in this post we used the Go memory model and the happens-before relation to fix a program that was not properly synchronized, we used channels obtain a new program that is properly synchronized, and we employed the happens-before relation to rigorously reason about the correctness of new program.
+
+## Much ado about something
+
+In this post we used the Go memory model and the happens-before relation to fix a program that was not properly synchronized, we used channels to obtain a new program that is properly synchronized, and we employed the happens-before relation to rigorously reason about the correctness of new program.
+
+You may be wondering... that was a lot of work in order to show that a four line program works as intended.  Indeed.  We are building concepts and mathematical tools for reasoning about programming languages and programs.  It takes effort.  But the effort can have big pay-offs.  Later we will see how these same concepts and tools helped expose a bug that existed undetected in Go for many years.
+
 
 [mmp1]: /programming-languages/2020/03/05/memory-models.html
 [gomm]: https://golang.org/ref/mem
