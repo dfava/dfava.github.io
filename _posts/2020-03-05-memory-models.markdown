@@ -6,9 +6,16 @@ categories: programming-languages
 ---
 In this series of posts we will visit the concept of *memory models* using "real-world" examples.  We will look behind the scenes and into a programming language's implementation.  We will see how the specification of the memory model relates to the language's implementation.  This journey will take a few posts.
 
-Below we cover some basics:  what is a memory model and why do these models matter.  We will touch on concepts associated with multi-threading and synchronization, such as the concept of *sequential consistency*, *weak-* or *relaxed-memory*, *atomicity*, etc.  In future posts we will discuss the [Golang memory model][gomm] and we will look into [Go runtime][goruntime] source code.  But first, a confession.
+Below we cover some basics:  what is a memory model and why do these models matter.  We will touch on concepts associated with multi-threading and synchronization, such as the concept of *sequential consistency*, *weak-* or *relaxed-memory*, *atomicity*, etc.  In future posts, we will discuss the [Golang memory model][gomm] and we will look into [Go runtime][goruntime] source code.  But first, a confession.
 
-My background is in engineering, not in computer science, and I managed to have a fine career in Silicon Valley without having to think too hard about memory models.  For the better part of my tenure, I wasn't even aware of the concept.  Turns out memory models are quite interesting.  And it amazes me how anything works given how complex and elusive memory can be.  We will have plenty to talk about, even from the smallest examples.  You may be surprised by how much we can unpack from just six lines of code or so.
+<p>
+<img src="/img/hilo.png" width="350" alt="abstraction: high and low" align="right" hspace="25" vspace="20"/>
+My background is in engineering, not in computer science, and I managed to have a fine career in Silicon Valley without having to think too hard about the concept of a memory model.  For the better part of my tenure, I wasn't even fully aware of the concept.  I knew quite a bit about caches, paging and virtual memory management, hardware pipelines, etc, but the connection between hardware and programming-language concepts was still a bit fuzzy for me.
+Now, at the course of my graduate studies, I've had the opportunity to lecture about memory models at the university.  In these lectures, I talk about hardware's take on memory (low level), about software's guarantees to the programmer (high level), about how a language's memory model forms a contract between these two levels of abstraction, and about the role of a compiler in all of this.
+This post is, in part, based on one of those lectures.
+</p>
+
+Turns out memory models are quite interesting.  And it amazes me how anything works given how complex and elusive memory can be.  We will have plenty to talk about, even from the smallest examples.  You may be surprised by how much we can unpack from just six lines of code or so.
 
 Let's start with this example here.  What does this program do?
 
