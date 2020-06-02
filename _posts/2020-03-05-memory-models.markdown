@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Memory models, part I"
+title:  "An introduction to Memory Models"
 date:   2020-03-05 10:00:00 +0100
 categories: programming-languages
 ---
