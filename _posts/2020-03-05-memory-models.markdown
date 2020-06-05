@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "An introduction to Memory Models"
+title:  "An introduction to memory models"
 date:   2020-03-05 10:00:00 +0100
 categories: programming-languages
 ---
@@ -80,7 +80,12 @@ There are two concepts here: *atomicity* and *program order*.
 
 *Program order* is the order of instructions in the program text.  The compiler is allowed some freedom rearranging instructions, and processors are also allowed some freedom in the order of execution of these instructions.  However, when it comes sequentially consistent memory models, the rules are pretty strict.  Instruction reordering can still happens.  Sequential consistency says that the result must be *as if* instructions were executed in program order.  The compiler or the hardware can still compile/execute instructions out-of-order, as long as we are not able to tell the difference.
 
-Enough with definitions for now.  Let us go back to our original example.  I am going to label the program locations `A`, `B`, `C`, and `D`.
+Enough with definitions for now.  Let us go back to our original example.
+
+
+## Closing the loop
+
+Let us go back to our original example and label the program locations `A`, `B`, `C`, and `D`:
 
 ```
      T1            |    T2
@@ -90,59 +95,22 @@ done = true   (B)  |     print(z)    (D)
 
 In a sequentially consistent world, if `T2` observes the value of `done` to be `true`, then it must be because `T1` set it to true in `B`.  Because instructions must appear to have been executed in program order, then it must be that `T1` has already set `z` to `42` in `A`.  Therefore, the print statement in `D` will necessarily print `42`.  Bingo!  Our program is properly synchronized from the point of view of a sequentially consistent memory model.
 
-Life is good and we can go home now.  Well... except that most programming languages and processors are not sequentially consistent.  In our ever quest for performance, we have designed compilers and processors to deviate from sequential consistency.  These deviations are also called *relaxations*, as they *relax* the order of instructions and their execution.
+Life is good and we can go home now.  Well... except that most programming languages and processors are not sequentially consistent.  In our ever quest for performance, we have designed compilers and processors to deviate from sequential consistency.  These deviations are also called *relaxations*, as they *relax* the order of instructions and their execution.  "Relaxed" and "weak" are used interchangeably.  A relaxed memory model is a weak memory model.
 
-## *Weak* or *relaxed* memory models
-
-By relaxing the order of execution of instructions, compilers are able to produce faster binaries, and processors are able to execute these binaries faster.  We want this rearranging to be done for us because efficient instruction scheduling is a science in itself.  While sequential consistency imposes program-order across the board, relaxed memory models only preserve *single thread semantics*.
-
-In other words, each thread must not be able to tell that the order of its instructions has been messed with.  So, if I am a thread, I must not be able to tell that my instructions have been rearranged.  But if *you* are an external thread, then you may be able to tell the difference: you may be able to notice that *my* instructions are being executed out of program order.
-
-Here is a concrete example.  Let `x` and `y` be shared variables initialized to `0`, and `r1` and `r2` be registers local to the threads.
+Under weak memory, it is possible for the instructions in `T1` to be swapped.
 
 ```
-   T1               T2
-x  = 1       |   y  = 1
-r1 = y       |   r2 = x
-print r1     |   print r2
+     T1            |    T2
+done = true   (B)  |   if (done)     (C)
+z    = 42     (A)  |     print(z)    (D)
 ```
 
-You should convince yourself that this program can print the following pairs of values: `{(0,1), (1,0), (1,1)}`.
+The *single-threaded behavior* of `T1` is still the same: both `done` and `z` get set to `true` and `42`.  However, the swap breaks the intent of the overall program.  It is now possible for `T2` to perceive `done` being `true` and for the print-statement to then print the uninitialized value of z.
 
-I will now swap the first two instructions in `T1` to obtain a new program.  Maybe this new program executes faster.
-
-```
-   T1               T2
-r1 = y       |   y  = 1
-x  = 1       |   r2 = x
-print r1     |   print r2
-```
-
-The swap is not noticeable from the point of view of `T1`: before the swap, `T1` could print `0` or `1` and, after the swap, `T1` can still print `0` or `1`.  No change.  However, these are now the possible pairs of values printed by the program: `{(0,0), (0,1), (1,0), (1,1)}`.  What a minute!  The pair `(0,0)` is new.  This pair didn't exist before the swapping of `T1`'s instructions!  Is this allowed?!
-
-In many relaxed memory models, the swap described above is totally acceptable.  Single threaded semantics has not changed: individually, `T1` and `T2` behave exactly the same before and after the reordering of instructions.  However, it is possible to preserve single threaded semantics and still obtain a different program as a whole.  Whole program semantics is not *compositional*: the whole is not always the same as the sum of its parts.
-
-There are different sources of weakness in a memory model.  Reordering of instructions can happens at the hardware level (at execution time) and at software level (at compilation time).  Also, in hardware, memory hierarchy (like processor store buffers, load buffers, caches) can lead to weaknesses in the memory model.  In fact, a bewildering number of models exist.
-
-How can I then tell how my program will behave when it gets compiled to different hardware architectures?!  That's the job of a programming language's memory model.  Many programming languages specify a memory model so that you don't have to worry about this question.  You program according to the language's memory model and compiler makes sure it behaves the same across architectures.  The compiler does so by inserting the proper synchronization primitives for the given *compilation target*.
+How can we make sense of these swaps?  We explore weak memory models further on the [next post][mmp2].
 
 
-## Closing the loop
-
-Going back to the original example and the question of how it behaves.  Under weak memory, it is possible for the instructions in `T1` to be swapped.  
-
-```
-     T1         |    T2
-done = true     |   if (done)
-z    = 42       |     print(z)
-```
-
-The single threaded behavior of `T1` is still the same: both `done` and `z` get set to `true` and `42`.  However, the swap breaks the intent of the overall program.  It is now possible for `T2` to perceive `done` being `true` and for the print-statement to then print the uninitialized value of z.
-
-When you are ready, in the [next post][mmp2] we will look at a "real-world" memory model and learn how the model helps us properly synchronize the example above.
-
-
-[mmp2]: /programming-languages/2020/03/11/gomm.html
+[mmp2]: /programming-languages/2020/03/06/weak-memory-models.html
 [gomm]: https://golang.org/ref/mem
 [goruntime]: https://golang.org/pkg/runtime
 [lamport79]: https://dl.acm.org/doi/abs/10.1145/3335772.3335935

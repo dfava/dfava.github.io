@@ -1,0 +1,57 @@
+---
+layout: post
+title:  "The happens-before relation"
+date:   2020-03-11 14:00:00 +0100
+categories: programming-languages
+---
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    processEscapes: true
+  }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+At the end of the [previous post][mmp2], we saw that a compiler can change the order of instructions in a binary (as long as *single-threaded semantics* is preserved).  These changes can break synchronization, especially if we expect to synchronize by reading and writing to variables.
+When pondering about synchronization, it would be unreasonable to expect a programmer to peek into the compiler.  Luckily, languages come with a *memory model*: a document that serves as a contract between the programmer and the compiler.
+
+Memory models are often defined in terms of the *happens-before relation*.
+Lamport [introduced the concept][lamport78] in 1978 when studying the relative order of events in distributed systems.  Today, the happens-before has become a vehicle for speaking of memory, for defining data races, etc.
+
+The happens-before relation is a mathematical construct.  You shouldn't read "happens-before" and think in terms of natural language.  Here are two ways in which our intuition about the words "happens before" breaks.  First, happens-before does not necessarily imply an order of execution.  Even if `A` is in happens-before relation to `B`, it is still possible for `B` to occur before `A` in an execution.  Hum...    Second, even if `A` necessarily occurs before `B`, it is still possible for `A` and `B` to not be related by happens-before.  Double "hum..."
+
+Going back to our good old example from a [previous post][mmp1].
+
+```
+     T1             |    T2
+z    = 42       (A) |   if (done)    (C)
+done = true     (B) |     print(z)   (D)
+```
+
+We saw that it is possible for `A` not to be executed before `B`; this observation comes despite of the fact that `A` is in happens-before relation to `B` (as it will become clear later).
+Also, even though `B` occurs before `D` in every execution, it does not mean that `B` is in happens-before relation to `D`.  These facts may seem confusing now but, by the time you finish reading, it should all be much clearer.
+
+Instead of using our intuition when thinking about *happens-before*, we will apply a definition.  Let us write *happens-before* as $\rightarrow_{hb}$.  Similar to how $<$ is a relation between numbers, the happens-before relation is a relation between events. To be more precise, $\rightarrow_{hb}$ is a relation between events emanating from a program's execution.
+
+Let $a$, $b$, and $c$ be events.  For example, $a$ could be the reading of a variable by a thread.  Event $b$ could be a write to another variable by another thread.  Event $c$ could be some synchronization operation.  The happens-before relation was originally defined in terms of message-passing as follows:
+
+1. If $a$ occurs before $b$ within the same process, then $a \rightarrow_{hb} b$,
+2. If $a$ is the sending of a message and $b$ is the message reception, then $a \rightarrow_{hb} b$,
+3. If $a \rightarrow_{hb} b$ and $b \rightarrow_{hb} c$ then $a \rightarrow_{hb} c$.
+
+Notice that *rule (1)* above captures the preservation of single-threaded semantics.  Single-thread semantics means that instructions within a thread must appear to be executed in program-order.  The compiler may still reorder read and writes within a thread, as long as the thread can't tell the difference.
+
+Note also that, although happens-before was originally defined by Lamport in terms of message passing, today, the concept is used to described various types of systems.  It is common, for example, to describe locks in terms of the happens-before relation.
+
+Finally, *rule (3)* means that the happens-before relation, like the less-than relation, is transitive.  For example, since $3 < 5$ and $5 < 10$ then $3 < 10$.
+
+We are now prepared to look into the [Go memory model][gomm].  But we will have to do a little trespassing... Follow along on the [next post][mmgo].
+
+
+[mmp1]: /programming-languages/2020/03/05/memory-models.html
+[mmp2]: /programming-languages/2020/03/06/weak-memory-models.html
+[mmgo]: /programming-languages/2020/03/12/gomm.html
+[gomm]: https://golang.org/ref/mem
+[lamport78]: https://dl.acm.org/doi/abs/10.1145/3335772.3335934
