@@ -1,0 +1,49 @@
+---
+layout: post
+title:  "Rhubarb tang"
+date:   2020-06-04 11:00:00 +0100
+categories: recipes
+---
+If you are following the blog, you have been busy learning about memory models.  We started from the [basics][mmp1]: what are memory models? What's interesting and challenging about them?
+Then covered [weak memory][mmp2] and got to the point of introducing the concept of [happens-before relation][mmhb].  With that, we [visited a real-world memory model specification][mmgo], that of the Go programming language.
+
+Pat yourself on the back.  Great job!  It is time to take a refreshing break.
+In my [welcome post][fizz], I said I would share some (drink) recipes.  Here is one for the summer.  I call it "rhubarb tang".
+
+We'll use:
+
+- Orange juice
+- Apple juice (optional)
+- Rhubarb
+- Sugar
+- Tequila
+- Ice
+
+This recipe yields a drink and a dessert.  Two for the price of one.
+
+Roasted sweetened rhubarb makes for a nice dessert.  We'll use the liquid that remains to make a tangy drink.  Here we go:
+
+1. Cut the rhubarb in about 3cm length (about 1 inch).
+2. Place the rhubarb in an oven pan.
+3. Add the juice so as to cover the bottom of the pan.
+4. Top the rhubarb with lots of sugar.  Be generous.
+5. Put it in the oven for about 20 minutes at around 200C (390 F).
+
+Once out of the oven and cooled, you can eat the rhubarb for dessert---possibly adding a bit more sugar.
+We will use the liquid that remained at the bottom of the oven pan to make a drink:
+
+1. Pour the sweetened juicy rhubarb liquid into a glass.
+2. Add a splash of water (sparking water is even better).
+3. Add one shot of tequila.
+4. Top it with lots of ice.
+
+You get extra credit if the rhubarb comes from your home garden.
+
+Enjoy!
+
+
+[fizz]: /recipes/2020/03/04/starting-with-fizz.html
+[mmp1]: /programming-languages/2020/03/05/memory-models.html
+[mmp2]: /programming-languages/2020/03/06/weak-memory-models.html
+[mmhb]: /programming-languages/2020/03/11/mm-hb.html
+[mmgo]: /programming-languages/2020/03/12/gomm.html
