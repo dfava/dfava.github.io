@@ -22,7 +22,7 @@ Lamport [introduced the concept][lamport78] in 1978 when studying the relative o
 
 The happens-before relation is a mathematical construct.  You shouldn't read "happens-before" and think in terms of natural language.  Here are two ways in which our intuition about the words "happens before" breaks.  First, happens-before does not necessarily imply an order of execution.  Even if `A` is in happens-before relation to `B`, it is still possible for `B` to occur before `A` in an execution.  Hum...    Second, even if `A` necessarily occurs before `B`, it is still possible for `A` and `B` to not be related by happens-before.  Double "hum..."
 
-Going back to our good old example from a [previous post][mmp1].
+To illustrate, let us go back to our good old example from a [previous post][mmp1].
 
 ```
      T1             |    T2
@@ -30,10 +30,16 @@ z    = 42       (A) |   if (done)    (C)
 done = true     (B) |     print(z)   (D)
 ```
 
-We saw that it is possible for `A` not to be executed before `B`; this observation comes despite of the fact that `A` is in happens-before relation to `B` (as it will become clear later).
-Also, even though `B` occurs before `D` in every execution, it does not mean that `B` is in happens-before relation to `D`.  These facts may seem confusing now but, by the time you finish reading, it should all be much clearer.
+We saw in that same [previous post][mmp1] that statements `A` and `B` can be swapped without breaking *single-threaded semantics*.  So it is possible for `A` to be executed after `B`.   This observation comes despite of the fact that `A` is in happens-before relation to `B`.  As it will become clear later, `A` and `B` are in happens-before relation because they are in program order.
 
-Instead of using our intuition when thinking about *happens-before*, we will apply a definition.  Let us write *happens-before* as $\rightarrow_{hb}$.  Similar to how $<$ is a relation between numbers, the happens-before relation is a relation between events. To be more precise, $\rightarrow_{hb}$ is a relation between events emanating from a program's execution.
+Also, note that `B` occurs before `D` in every execution: we can only print when the guard of the if-statement succeeds, the if-guard can only succeed when `done` is set to `true`.  Even though `B` occurs before `D` is every execution, it does not mean that `B` is in happens-before relation to `D`.  These facts may seem confusing now but, but they should become clearer by the time you finish reading this and the [next post][mmgo].
+
+For now, instead of using our intuition when thinking about *happens-before*, we will apply a definition.
+
+
+### Definition
+
+Let us write *happens-before* as $\rightarrow_{hb}$.  Similar to how $<$ is a relation between numbers, the happens-before relation is a relation between events. To be more precise, $\rightarrow_{hb}$ is a relation between events emanating from a program's execution.
 
 Let $a$, $b$, and $c$ be events.  For example, $a$ could be the reading of a variable by a thread.  Event $b$ could be a write to another variable by another thread.  Event $c$ could be some synchronization operation.  The happens-before relation was originally defined in terms of message-passing as follows:
 
