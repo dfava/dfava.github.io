@@ -7,6 +7,9 @@ categories: programming-languages
 
 In the [previous post][mmp1], we touched on consequences of our quest for performance.  By relaxing the order of execution of instructions, compilers are able to produce faster binaries, and processors are able to execute these binaries faster.  We want this rearranging to be done for us because efficient instruction scheduling is a science in itself.  Also, on the previous post, we touched on the concept of sequential consistency.  While sequential consistency imposes program-order across the board, relaxed memory models only preserve *single-thread semantics*.
 
+In this post, we will be more direct about weak memory models.
+<!--more-->
+
 
 ### Compositionality and single-threaded semantics
 

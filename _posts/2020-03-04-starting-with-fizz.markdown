@@ -6,7 +6,7 @@ categories: recipes
 ---
 Welcome!  I want to share with you some things I've learned about computer science.  I hope to spark conversations, meet people, and have a bit of fun along the way.  I will try to strike a balance between practice and theory, rigor and accessibility.  I hope you'll enjoy.
 
-My [first post is about memory models][mmp1].  Before we start, here is a recipe that is as much revealing about [my origins][vitoria] as it is tasty.  I came to it recently, after being introduced to Aperol.  I call it "Aperinha", since it is a variation on the [caipirinha][caipirinha] recipe.  Without further ado, you'll need:
+My [first "serious" post is about memory models][mmp1], but before we start, here is a drink recipe that is as much revealing about [my origins][vitoria] as it is tasty.<!--more-->  I came to it recently, after being introduced to Aperol.  I call it "Aperinha", since it is a variation on the [caipirinha][caipirinha] recipe.  Without further ado, you'll need:
 
 - One lemon
 - [Cachaça][cachaca]

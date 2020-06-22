@@ -9,6 +9,7 @@ Then covered [weak memory][mmp2] and got to the point of introducing the concept
 
 Pat yourself on the back.  Great job!  It is time to take a refreshing break.
 In my [welcome post][fizz], I said I would share some (drink) recipes.  Here is one for the summer.  I call it "rhubarb tang".
+<!--more-->
 
 We'll use:
 

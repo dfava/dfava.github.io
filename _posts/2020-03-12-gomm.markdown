@@ -21,7 +21,7 @@ The [Go memory model][gomm] starts with the following ominous trespassing sign:
 >
 > Don't be clever. 
 
-Feeling clever?  Then come on in!
+Feeling clever?  Then come on in!<!--more-->
 Make sure you have brushed up on the concept of *happens-before relation* from the [previous post][mmhb].
 
 The Go memory model lays out the rules for what values can be read from memory given previous writes to memory from different threads (or goroutines as they are called in Go).  It uses the happens-before relation to precisely describe when a read operation can observe given write.  If remember the [previous post][mmhb] and are paying super close attention, you will notice that Go defines the happens-before relation slightly different from Lamport.  The [Go specification][gomm] says:

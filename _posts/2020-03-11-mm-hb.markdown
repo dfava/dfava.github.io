@@ -18,6 +18,7 @@ At the end of the [previous post][mmp2], we saw that a compiler can change the o
 When pondering about synchronization, it would be unreasonable to expect a programmer to peek into the compiler.  Luckily, languages come with a *memory model*: a document that serves as a contract between the programmer and the compiler.
 
 Memory models are often defined in terms of the *happens-before relation*.
+<!--more-->
 Lamport [introduced the concept][lamport78] in 1978 when studying the relative order of events in distributed systems.  Today, the happens-before has become a vehicle for speaking of memory, for defining data races, etc.
 
 The happens-before relation is a mathematical construct.  You shouldn't read "happens-before" and think in terms of natural language.  Here are two ways in which our intuition about the words "happens before" breaks.  First, happens-before does not necessarily imply an order of execution.  Even if `A` is in happens-before relation to `B`, it is still possible for `B` to occur before `A` in an execution.  Hum...    Second, even if `A` necessarily occurs before `B`, it is still possible for `A` and `B` to not be related by happens-before.  Double "hum..."

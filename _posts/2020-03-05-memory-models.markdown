@@ -7,6 +7,7 @@ categories: programming-languages
 In this series of posts we will visit the concept of *memory models* using "real-world" examples.  We will look behind the scenes and into a programming language's implementation.  We will see how the specification of the memory model relates to the language's implementation.  This journey will take a few posts.
 
 Below we cover some basics:  what is a memory model and why do these models matter.  We will touch on concepts associated with multi-threading and synchronization, such as the concept of *sequential consistency*, *weak-* or *relaxed-memory*, *atomicity*, etc.  In future posts, we will discuss the [Golang memory model][gomm] and we will look into [Go runtime][goruntime] source code.  But first, a confession.
+<!--more-->
 
 <p>
 <img src="/img/hilo.png" width="350" alt="abstraction: high and low" align="right" hspace="25" vspace="20"/>
