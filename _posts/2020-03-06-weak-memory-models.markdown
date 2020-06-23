@@ -5,9 +5,9 @@ date:   2020-03-06 10:00:00 +0100
 categories: programming-languages
 ---
 
-In the [previous post][mmp1], we touched on consequences of our quest for performance.  By relaxing the order of execution of instructions, compilers are able to produce faster binaries, and processors are able to execute these binaries faster.  We want this rearranging to be done for us because efficient instruction scheduling is a science in itself.  Also, on the previous post, we touched on the concept of sequential consistency.  While sequential consistency imposes program-order across the board, relaxed memory models only preserve *single-thread semantics*.
+In the [previous post][mmp1], we touched on consequences of our quest for performance.  We saw that, by relaxing the order of execution of instructions, compilers are able to produce faster binaries, and processors are able to execute these binaries faster.  We want this rearranging to be done for us because efficient instruction scheduling is a science in itself.  Also on the previous post, we touched on the concept of *sequential consistency*.
 
-In this post, we will be more direct about weak memory models.
+In this post, we will discuss *single-threaded semantics*, *compositionality*, and their relation to weak memory models.
 <!--more-->
 
 
@@ -41,6 +41,8 @@ print r1     |   print r2
 The swap is not noticeable from the point of view of `T1`: before the swap, `T1` could print `0` or `1` and, after the swap, `T1` can still print `0` or `1`.  No change.  However, these are now the possible pairs of values printed by the program: `{(0,0), (0,1), (1,0), (1,1)}`.  What a minute!  The pair `(0,0)` is new.  This pair didn't exist before the swapping of `T1`'s instructions!  Is this allowed?!
 
 In many relaxed memory models, the swap described above is totally acceptable.  Single-threaded semantics has not changed: individually, `T1` and `T2` behave exactly the same before and after the reordering of instructions.  However, it is possible to preserve single-threaded semantics and still obtain a different program as a whole.
+
+While sequential consistency imposes program-order across the board, relaxed memory models only preserve *single-thread semantics*.
 
 
 ## M for model and for meaning
