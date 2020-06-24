@@ -74,8 +74,7 @@ func main() {
 We can think about the repair as follows.  The reception of the message is blocking, meaning that the `main` goroutine will block until a message is available to be received.  Recall from a [previous post][mmgo] that, according to the [Go memory model][gomm], a *send* on a channel happens-before the corresponding *receive* completes.  So the *send* and its corresponding *receive* work to place the setting of `a` in `setA` in *happens-before* relation to the reading of `a` in `main`.  (You can brush up on the happens-before relation [here][mmhb].)
 
 
-<!-- TODO [next post][concurrencyvdistribution] -->
-In the next post, I plan to we discuss the difference between *concurrency* and *distribution*, relating the two concepts to different types of synchronization.  We make a connection between concurrency and locks and between distribution and channels.  After that, we look at how channels can be used as locks and later argue that these synchronization primitives are actually fundamentally different.
+In the [next post][concurrencyvdistribution], I plan to we discuss the difference between *concurrency* and *distribution*, relating the two concepts to different types of synchronization.  We make a connection between concurrency and locks and between distribution and channels.  After that, we look at how channels can be used as locks and later argue that these synchronization primitives are actually fundamentally different.
 
 
 [mmp1]: /programming-languages/2020/03/05/memory-models.html
