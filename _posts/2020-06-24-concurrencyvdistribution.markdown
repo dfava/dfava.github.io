@@ -14,10 +14,12 @@ MathJax.Hub.Config({
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
-The Go memory model specifies two main ways to synchronize with channels:
+The Go memory model specifies two main ways in channels are used for synchronization:
 
 1. A send onto a channel happens-before the corresponding receive from that channel completes.
 2. The $k^{th}$ receive from a channel with capacity $C$ happens-before the $(k+C)^{th}$ send onto that channel completes.
+
+Recall that *happens-before* is a mathematical relation, as discussed [here][mmhb].
 
 Rule (1) above has been around for a while.  The rule is very similar to what was originally proposed by [Lamport in 1978][lamport78].  It establishes a happens-before relation between a sender and its corresponding receiver.
 Rule (2) is a bit more esoteric.  It was not present in Lamport's study of distributed systems.  There is a good reason for that absence.
@@ -34,30 +36,33 @@ In distributed system, however, there is no such point of authority---at least n
 
 Locks are often used to program concurrent systems, where the agents are located under a central resource manager.  This manager can be the operating system, or a language runtime with the help of the OS.  Different from locks, channels are a step towards synchronization in the setting of distribution.
 
-Go borrowed rule (1) from Lamport's research on distribution.  On the other hand, rule (2) comes from the realization that Go is not all the way there.  Rather, Go is a language for concurrency.
+Go borrowed rule (1) from Lamport's research on distribution.  On the other hand, rule (2) comes from the realization that Go is not all the way there.  Rather, Go is a language for concurrency.  As we will see next, it is because of rule (2) that we can use a channel as a lock.
+
 
 
 ## Channels as locks
 
-Rule (2) allows us to use (or "misuse", depending on your point of view) channels as locks.  Here is an example.  In this example, the channel `c` has capacity 1.
+Rule (2) allows us to use (or "misuse", depending on your point of view) channels as locks.  Here is an example.  The channel `c` below has capacity 1.  Threads `T0` and `T1` are both trying to access some shared resource, say `z`.  Before accessing `z`, a thread sends a message on the channel `c`, and receives from the channel afterwards.
+
+
 
 
 ```
   T0            T1
-c <- 0     |  c <- 0
+c <- 0     |  c <- 0         # Send the value of 0 onto channel c
 z := 42    |  z := 43
-<- c       |  <- c
+<- c       |  <- c           # Receive a value from channel c
 ```
 
-Threads `T0` and `T1` are both trying to access some shared resource, say `z`.  Before accessing `z`, a thread sends a message on the channel `c`, and receives from the channel afterwards.
+Note the threads do not exchange messages.  In this example, a *send* and its corresponding *receive* do not contribute to synchronization!  The send is matched by a receive from the same thread---nothing new is learned from this exchange.  Yet, this program is properly synchronized.  
 
-Note that the send and its corresponding receive do not contribute to synchronization in this example.  The send is matched by a receive from the same thread; nothing new is learned from this exchange.  Rule (1) is mute here: the receive is in happens-before the send not just because of rule (1) but, more obviously, because of program order.  Yet, this program is properly synchronized.
+Note also that rule (1) is mute here.  Rule (1) is obviated by *program order*.  Yes, the *send* is in happens-before to the corresponding receive.  But this happens-before relation can be derived simply because the *send* appears before the *receive* in the program text.  
 
-This program is properly synchronized because the channel is acting like a lock: *send* is acting like the `acquire` operation, and the *receive* as the `release`.  What allows for this interaction is Rule (2).
-To see that, let us assume that `T1` is the first thread to perform the send operation.  (We could easily apply the same logic assuming `T0` was first.)  Since the channel has capacity 1, `T0` will not be able to send onto the channel until `T1` has received from it.  Rule (2) then links the reception by `T1` to the send by `T0`:  the 0<sup>th</sup> receive happens-before the 1<sup>st</sup> send completes.  By this reasoning, we know that the write `z := 43` by `T1` in the past of `T0`.  Therefore, `T0` can access `z` without causing a data race.
+How is this program synchronized then?  The program is properly synchronized because the channel is acting like a lock: the *send* is acting like `acquire`, and the *receive* as `release`.  Rule (2) is what allows for this interpretation.
 
-For a rigorous discussion, see Section 3.5 of our paper [Ready, set, Go! Data-race detection and the Go language][readysetgo].
+To really convince ourselves that the program is synchronized, let us assume that `T1` is the first thread to perform the send operation.  (We could easily apply the same logic assuming `T0` was first.)  Since the channel has capacity 1, `T0` will not be able to send onto the channel until `T1` has received from it.  Rule (2) then links the reception by `T1` to the send by `T0`:  the 0<sup>th</sup> receive happens-before the 1<sup>st</sup> send completes.  Therefore, the write `z := 43` by `T1` in the past of `T0`.  Finally, we conclude that, `T0` can access `z` without causing a data race.
 
+If you are interested, you can find more on Section 3.5 of our paper [Ready, set, Go! Data-race detection and the Go language][readysetgo].
 
 Although we can make channels behave as locks, I will argue that synchronization through locks is *fundamentally different* from synchronization via channels.  That's the topic of the next post. <!-- TODO [next post][channelsvlocks]. -->
 
