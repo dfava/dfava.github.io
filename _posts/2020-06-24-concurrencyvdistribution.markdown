@@ -62,9 +62,11 @@ How is this program synchronized then?  The program is properly synchronized bec
 
 To really convince ourselves that the program is synchronized, let us assume that `T1` is the first thread to perform the send operation.  (We could easily apply the same logic assuming `T0` was first.)  Since the channel has capacity 1, `T0` will not be able to send onto the channel until `T1` has received from it.  Rule (2) then links the reception by `T1` to the send by `T0`:  the 0<sup>th</sup> receive happens-before the 1<sup>st</sup> send completes.  Therefore, the write `z := 43` by `T1` in the past of `T0`.  Finally, we conclude that, `T0` can access `z` without causing a data race.
 
-If you are interested, you can find more on Section 3.5 of our paper [Ready, set, Go! Data-race detection and the Go language][readysetgo].
+## Conclusion
 
-Although we can make channels behave as locks, I will argue that synchronization through locks is *fundamentally different* from synchronization via channels.  That's the topic of the next post. <!-- TODO [next post][channelsvlocks]. -->
+We placed Go in a spectrum between concurrency and distribution.  We saw how rules  from the Go memory model are used for synchronization---the rules have different flavors: rule (1) gives us an order, while rule (2) is related to mutual exclusion (an order exists, but we don't know which).  In a sense, rule (1) is [constructive or intuitionistic][intuitionistic], while rule (2) is [classical][classical].  If you are interested, you can find more on Section 3.5 of our paper [Ready, set, Go! Data-race detection and the Go language][readysetgo].
+
+Even though we can make channels behave as locks, I will argue that synchronization through locks is *fundamentally different* from synchronization via channels.  That's the topic of the next post. <!-- TODO [next post][channelsvlocks]. -->
 
 
 [mmp1]: /programming-languages/2020/03/05/memory-models.html
@@ -75,3 +77,5 @@ Although we can make channels behave as locks, I will argue that synchronization
 [gomm]: https://golang.org/ref/mem
 [lamport78]: https://dl.acm.org/doi/abs/10.1145/3335772.3335934
 [readysetgo]: https://doi.org/10.1016/j.scico.2020.102473
+[intuitionistic]: https://en.wikipedia.org/wiki/Intuitionistic_logic
+[classical]: https://en.wikipedia.org/wiki/Classical_logic
