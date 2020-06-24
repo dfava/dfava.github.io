@@ -27,11 +27,13 @@ Make sure you have brushed up on the concept of *happens-before relation* from t
 The Go memory model lays out the rules for what values can be read from memory given previous writes to memory from different threads (or goroutines as they are called in Go).  It uses the happens-before relation to precisely describe when a read operation can observe given write.  If remember the [previous post][mmhb] and are paying super close attention, you will notice that Go defines the happens-before relation slightly different from Lamport.  The [Go specification][gomm] says:
 
 
-1. Instructions within a thread are in happens-before relation.  (Same as Lamport)
-2. A send onto a channel happens-before the corresponding receive from that channel completes.  (Almost the same as Lamport)
-3. The $k^{th}$ receive from a channel with capacity $C$ happens-before the $(k+C)^{th}$ send onto that channel completes.  (New compared to Lamport)
+<ol start="0">
+<li/> Instructions within a thread are in happens-before relation.  (Same as Lamport)
+<li/> A send onto a channel happens-before the corresponding receive from that channel completes.  (Almost the same as Lamport)
+<li/> The $k^{th}$ receive from a channel with capacity $C$ happens-before the $(k+C)^{th}$ send onto that channel completes.  (New compared to Lamport)
+</ol>
 
-There are a few other rules not mentioned above, such as rules about spawning new threads (or Go routines).  But we don't need them right now.  Rules (1), (2), and (3) above will give us plenty to think about.
+There are a few other rules not mentioned above, such as rules about spawning new threads (or Go routines).  But we don't need them right now.  Rules (0), (1), and (2) above will give us plenty to think about.
 
 ### Reasoning with the Go memory model
 
@@ -53,7 +55,7 @@ z    = 42     (A)  |   if (done)     (C)
 done = true   (B)  |     print(z)    (D)
 ```
 
-Given rule (1) from the Go memory model, we infer that `A` $\rightarrow_{hb}$ `B` and that `C` $\rightarrow_{hb}$ `D`.  But that is all we get!  There is no way to relate events from thread `T1` to events of thread `T2`.  Given the fact that the instructions in `T1` and `T2` are not related by happens-before, it is possible for `D` to occur before `A` in an execution.
+Given rule (0) from the Go memory model, we infer that `A` $\rightarrow_{hb}$ `B` and that `C` $\rightarrow_{hb}$ `D`.  But that is all we get!  There is no way to relate events from thread `T1` to events of thread `T2`.  Given the fact that the instructions in `T1` and `T2` are not related by happens-before, it is possible for `D` to occur before `A` in an execution.
 
 If we want to fix this program and make sure `T2` will necessarily print `42`, then we must ensure that `A` happens-before `D`.  How can we do that?!  In Go, we use channels.  Let us replace the setting of `done` and the checking of `done` with a send on a channel `c` and a receive from that channel:
 
@@ -65,7 +67,7 @@ c   <- true   (B)  |   print(z)    (D)
 
 The statement `c <- true`, with the arrow pointing *into* the channel, means that we are sending the value of `true` on the channel.  The statement `<- c`, with the arrow pointing *away* from the channel, means we are receiving a value from the channel.
 
-Because the receive operation is blocking, meaning, it will block until there is something to be received, we know that the receive will only occur once the sent has occurred.  Indeed, given rule (2) from the Go memory model, which says that "a send happens-before the corresponding receive completes", we now have `B` $\rightarrow_{hb}$ `C`.  Thanks to rule (2), we are able to relate events from different threads.
+Because the receive operation is blocking, meaning, it will block until there is something to be received, we know that the receive will only occur once the sent has occurred.  Indeed, given rule (1) from the Go memory model, which says that "a send happens-before the corresponding receive completes", we now have `B` $\rightarrow_{hb}$ `C`.  Thanks to rule (1), we are able to relate events from different threads.
 
 At this point we have:
 

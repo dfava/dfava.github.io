@@ -1,0 +1,88 @@
+---
+layout: post
+title:  "What makes Go special"
+date:   2020-06-23 13:00:00 +0100
+categories: programming-languages
+---
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    processEscapes: true
+  }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+<img src="/img/goroutine.png" width="350" alt="goroutine" align="right" hspace="20" vspace="15"/>
+What stands out the most in Go, to me, are goroutines and channels.  The language was built for the many-core.  It sprung from the observation that processors are not getting much faster at doing one thing, but are becoming faster by doing many things at once.  To benefit from this trend, we ought to write multithreaded applications.  Go makes it super easy to have multiple threads of execution.  By prepending the keyword `go` at invocation, any function can run asynchronously (on its own "thread").
+For example, 
+the program below has only one goroutine, the *main* goroutine.
+<!--more-->
+
+```{go}
+package main
+var a string
+func setA() { a = "hello" }
+
+func main() {
+  setA()
+  print(a)
+}
+```
+
+If we prepend the call to `setA` with `go`, the function `setA` will run on its own "thread of execution", or as we say in Go,  *goroutine*.
+
+```{go}
+package main
+var a string
+func setA() { a = "hello" }
+
+func main() {
+  go setA()
+  print(a)
+}
+```
+
+
+The ease with which we can turn sequential code into concurrent code is staggering.  With great power, however, comes great responsibility.  By making `setA` run asynchronously, we broke the above program.  It is now possible for the `print` in `main` to execute before `setA` has a chance to set `a` to `hello`.  As a consequence, it is possible for this program to print the empty string.
+This situation is an example of a *data race*.
+
+> A data race constitutes
+> two unsynchronized accesses to the same memory location, with at least one of the accesses being a *write* access.
+
+Note that *read* accesses are never in conflict.  In other words, we can't have a data race between two read accesses.
+(There is also a definition of data races in terms of traces, and being able to put the two conflicting operations side-by-side in a trace.  That definition is in-line with an idea of races as two conflicting access occurring "at the same time".  In a future post, I'll analyze the difference between these definitions.<!-- I analyze the difference between these definitions [here][TODO].  The writing is a critique of the side-by-side or "at the same time" definition.-->)
+
+<img src="/img/channels.png" width="350" alt="goroutine" align="right" hspace="20" vspace="15"/>
+Instead of locks, Go advocates synchronization via channel communication---sending and receiving messages on channels.  We can repair the program as follows.  We'll create a channel, called `done`, that is shared between the two goroutines, we'll send a message after writing to the shared variable in `setA`, and we'll receive a message before reading from the shared variable in `main`.
+
+
+```{go}
+package main
+var done = make(chan bool, 10)
+var a string
+func setA() { a = "hello"; done <- true }
+
+func main() {
+  setA()
+  <- done
+  print(a)
+}
+```
+
+We can think about the repair as follows.  The reception of the message is blocking, meaning that the `main` goroutine will block until a message is available to be received.  Recall from a [previous post][mmgo] that, according to the [Go memory model][gomm], a *send* on a channel happens-before the corresponding *receive* completes.  So the *send* and its corresponding *receive* work to place the setting of `a` in `setA` in *happens-before* relation to the reading of `a` in `main`.  (You can brush up on the happens-before relation [here][mmhb].)
+
+
+<!-- TODO [next post][concurrencyvdistribution] -->
+In the next post, I plan to we discuss the difference between *concurrency* and *distribution*, relating the two concepts to different types of synchronization.  We make a connection between concurrency and locks and between distribution and channels.  After that, we look at how channels can be used as locks and later argue that these synchronization primitives are actually fundamentally different.
+
+
+[mmp1]: /programming-languages/2020/03/05/memory-models.html
+[mmp2]: /programming-languages/2020/03/06/weak-memory-models.html
+[mmgo]: /programming-languages/2020/03/12/gomm.html
+[mmhb]: /programming-languages/2020/03/11/mm-hb.html
+[gomm]: https://golang.org/ref/mem
+[lamport78]: https://dl.acm.org/doi/abs/10.1145/3335772.3335934
+[readysetgo]: https://doi.org/10.1016/j.scico.2020.102473
+[concurrencyvdistribution]: /programming-languages/2020/06/24/concurrencyvdistribution.html
