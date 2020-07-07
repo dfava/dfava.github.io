@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Concurrency, Distribution, and the Go memory model"
-date:   2020-06-24 13:00:00 +0100
+date:   2020-07-07 13:00:00 +0100
 categories: programming-languages
 ---
 <script type="text/x-mathjax-config">
@@ -36,44 +36,35 @@ In distributed system, however, there is no such point of authority---at least n
 
 Locks are often used to program concurrent systems, where the agents are located under a central resource manager.  This manager can be the operating system, or a language runtime with the help of the OS.  Different from locks, channels are a step towards synchronization in the setting of distribution.
 
-Go borrowed rule (1) from Lamport's research on distribution.  On the other hand, rule (2) comes from the realization that Go is not all the way there.  Rather, Go is a language for concurrency.  As we will see next, it is because of rule (2) that we can use a channel as a lock.
-
-
-
-## Channels as locks
-
-Rule (2) allows us to use (or "misuse", depending on your point of view) channels as locks.  Here is an example.  The channel `c` below has capacity 1.  Threads `T0` and `T1` are both trying to access some shared resource, say `z`.  Before accessing `z`, a thread sends a message on the channel `c`, and receives from the channel afterwards.
-
-
-
+Go borrowed rule (1) from Lamport's research on distribution.  On the other hand, rule (2) comes from the realization that Go is not all the way there.  Rule (2) allows for the use of channels as locks, with *send* acting as `acquire` and *receive* as `release` (see [previous post][channelsvlocks] for details):
 
 ```
   T0            T1
-c <- 0     |  c <- 0         # Send the value of 0 onto channel c
+c <- 0     |  c <- 0
 z := 42    |  z := 43
-<- c       |  <- c           # Receive a value from channel c
+<- c       |  <- c
 ```
 
-Note the threads do not exchange messages.  In this example, a *send* and its corresponding *receive* do not contribute to synchronization!  The send is matched by a receive from the same thread---nothing new is learned from this exchange.  Yet, this program is properly synchronized.  
+Rule (1) gives us an order, while rule (2) is related to mutual exclusion (an order exists, but we don't know which).  In a sense, rule (1) is [constructive or intuitionistic][intuitionistic], while rule (2) is [classical][classical].  If you are interested, you can find more on Section 3.5 of our paper [Ready, set, Go! Data-race detection and the Go language][readysetgo].
 
-Note also that rule (1) is mute here.  Rule (1) is obviated by *program order*.  Yes, the *send* is in happens-before to the corresponding receive.  But this happens-before relation can be derived simply because the *send* appears before the *receive* in the program text.  
-
-How is this program synchronized then?  The program is properly synchronized because the channel is acting like a lock: the *send* is acting like `acquire`, and the *receive* as `release`.  Rule (2) is what allows for this interpretation.
-
-To really convince ourselves that the program is synchronized, let us assume that `T1` is the first thread to perform the send operation.  (We could easily apply the same logic assuming `T0` was first.)  Since the channel has capacity 1, `T0` will not be able to send onto the channel until `T1` has received from it.  Rule (2) then links the reception by `T1` to the send by `T0`:  the 0<sup>th</sup> receive happens-before the 1<sup>st</sup> send completes.  Therefore, the write `z := 43` by `T1` in the past of `T0`.  Finally, we conclude that, `T0` can access `z` without causing a data race.
 
 ## Conclusion
 
-We placed Go in a spectrum between concurrency and distribution.  We saw how rules  from the Go memory model are used for synchronization---the rules have different flavors: rule (1) gives us an order, while rule (2) is related to mutual exclusion (an order exists, but we don't know which).  In a sense, rule (1) is [constructive or intuitionistic][intuitionistic], while rule (2) is [classical][classical].  If you are interested, you can find more on Section 3.5 of our paper [Ready, set, Go! Data-race detection and the Go language][readysetgo].
+While channels are typically used to program distributed systems, Go has a slightly different angle on message passing.  Go introduces rule (2), which takes into account the channels' capacity:
 
-Even though we can make channels behave as locks, I will argue that synchronization through locks is *fundamentally different* from synchronization via channels.  That's the topic of the next post. <!-- TODO [next post][channelsvlocks]. -->
+<ol start="2">
+<li/>  The $k^{th}$ receive from a channel with capacity $C$ happens-before the $(k+C)^{th}$ send onto that channel completes.
+</ol>
+
+With rule (2), we can program channels as locks.  This puts the language in the spectrum between concurrency and distribution.
+
 
 
 [mmp1]: /programming-languages/2020/03/05/memory-models.html
 [mmp2]: /programming-languages/2020/03/06/weak-memory-models.html
 [mmgo]: /programming-languages/2020/03/12/gomm.html
 [mmhb]: /programming-languages/2020/03/11/mm-hb.html
-[channelsvlocks]: TODO
+[channelsvlocks]: /programming-languages/2020/06/24/channelsvlocks.html
 [gomm]: https://golang.org/ref/mem
 [lamport78]: https://dl.acm.org/doi/abs/10.1145/3335772.3335934
 [readysetgo]: https://doi.org/10.1016/j.scico.2020.102473
