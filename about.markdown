@@ -3,8 +3,7 @@ layout: about
 title: About
 permalink: /about/
 ---
-<img src="/img/dfava.jpg" alt="Daniel Fava" align="left" class="img-thumbnail" width="200" hspace="20" vspace="15"><br/>
-## Daniel S. Fava
+<img src="/img/dfava.jpg" alt="Daniel Fava" align="left" class="img-thumbnail" width="200" hspace="20" vspace="15"><br/><br/><br/>
 danielsf@ifi.uio.no<br/>
 [Reliable Systems group][psy]<br/>
 [Department of Informatics][ifi]<br/>
@@ -14,6 +13,7 @@ danielsf@ifi.uio.no<br/>
 [<img src="/img/github.png" alt="GitHub" width="30" height="30" />][github]
 [<img src="/img/orcid.png" style="width:2.55em;" alt="ORCID iD icon">][orcid]
 
+<br/>
 <br/>
 
 #### About me
