@@ -29,7 +29,7 @@ There are two threads, `T1` and `T2`, and they are trying to synchronize with ea
 The answer to "what does this program do" is: it depends.
 `T2` may execute before `T1`, in which case `done` is false and nothing is printed.
 
-But even if `T2` observes the value of `done` to do `true` it doesn't mean it will print the value of `42`.  It is possible for `T2` to print zero.  If you are not so sure about why that's the case, then read on...
+But even if `T2` observes the value of `done` to be `true` it doesn't mean it will print the value of `42`.  It is possible for `T2` to print zero.  If you are not so sure about why that's the case, then read on...
 
 ## A short primer on memory models
 
