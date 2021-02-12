@@ -7,9 +7,9 @@ permalink: /news/
 #### 2021
 
 - **[Feb]**
-My work on the Go data-race detector is part of Go 1.16.  See the relase notes under "Runtime":
+My work on the Go data-race detector is part of Go 1.16.  See the relase notes under Runtime:
 
-Go 1.16 fixes a discrepancy between the race detector and the Go memory model. The race detector now more precisely follows the channel synchronization rules of the memory model. As a result, the detector may now report races it previously missed.
+| *"Go 1.16 fixes a discrepancy between the race detector and the Go memory model. The race detector now more precisely follows the channel synchronization rules of the memory model. As a result, the detector may now report races it previously missed."*
 
 #### 2020
 
