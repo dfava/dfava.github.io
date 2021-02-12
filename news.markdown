@@ -9,6 +9,7 @@ permalink: /news/
 - **[Feb]**
 My work on the Go data-race detector is part of Go 1.16.  See the [relase notes under *Runtime.*](https://tip.golang.org/doc/go1.16#runtime)
 
+<br/>
 
 #### 2020
 
