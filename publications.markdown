@@ -68,6 +68,9 @@ D. Fava, S. R. Byers, S. J. Yang<br/>
 
 ### Technical reports and thesis
 
+- [Relaxed Memory Models andData-Race Detection tailored forShared-Memory Message-Passing Systems][phd:thesis:fava]<br/>
+PhD Thesis, Oslo, Norway. 2021
+
 - [Anything goes unless forbidden. Notes on synchronization and the operational semantics of a relaxed memory model][paper:fava2018anything]<br/>
 D. Fava, M. Steffen, and V. Stolz<br/>
 **GIWG 2018**:
@@ -111,5 +114,6 @@ Oslo, Norway, October 2018
 [paper:fava2018anything]: /papers/fava2018anything.pdf
 [paper:fava2007thesis]: /papers/Fa07-Thesis.pdf
 [proceedings:nwpt18]: /papers/nwpt18.pdf
+[phd:thesis:fava]: /thesis/dfava_thesis.pdf
 <!-- Other links -->
 [githubmmgo]: https://github.com/dfava/mmgo
