@@ -18,7 +18,9 @@ danielsf@ifi.uio.no<br/>
 
 #### About me
 
-I'm a fourth year PhD student in the [Reliable Systems group][psy], lead by [Olaf Owe][olaf], at the University of Oslo, Norway.  My research is about concurrency and, in specific, synchronization via channel communication.  Together with my advisor, [Martin Steffen][martin], we proposed a weak memory model inspired by the Go programming language.  Our formalisms helped unveil an [inconsistency][gobug] between the Go data-race detector's implementation and the Go memory model specification.  I plan to defend my thesis in December 2020.
+I am computer scientist and programmer living in Oslo, Norway.
+
+Formerly, I was a PhD student in the [Reliable Systems group][psy], lead by [Olaf Owe][olaf], at the University of Oslo, Norway.  There, I researched concurrency and, in specific, synchronization via channel communication.  Together with my advisor, [Martin Steffen][martin], we proposed a weak memory model inspired by the Go programming language.  Our formalisms helped unveil an [inconsistency][gobug] between the Go data-race detector's implementation and the Go memory model specification.  I defended my thesis in June 2021.
 
 Before joining academia, I worked in Silicon Valley for six years .  I was an engineer in the Platform Architecture team at Apple Inc., and in the Larrabee GP/GPU Post-Silicon Validation team at Intel.
 
