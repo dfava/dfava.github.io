@@ -6,7 +6,7 @@ permalink: /cv
 # Education
 
 <b>University of Oslo, Norway</b><br/>
-PhD student in Computer Science. July 2016 to present<br/>
+PhD student in Computer Science. June 2021<br/>
 <br/>
 <b>University of California Santa Cruz, CA</b><br/>
 Masters in Computer Science. June 2016<br/>
