@@ -31,6 +31,10 @@ Logical Methods for Safety and Security of Software Systems
 
 # Work Experience
 
+<b>Schibsted, Oslo, Norway</b>
+<br/>Data engineer. February 2021 til present
+<br/>
+
 <b>Apple Inc, Cupertino, CA</b>
 <br/>Platform architect. September 2010 to June 2013
 <br/>
