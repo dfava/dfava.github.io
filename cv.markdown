@@ -31,8 +31,12 @@ Logical Methods for Safety and Security of Software Systems
 
 # Work Experience
 
+<b>Vipps, Oslo, Norway</b>
+<br/>Back-end engineer. October 2022 til present
+<br/>
+
 <b>Schibsted, Oslo, Norway</b>
-<br/>Data engineer. February 2021 til present
+<br/>Data engineer. February 2021 to September 2022
 <br/>
 
 <b>Apple Inc, Cupertino, CA</b>
