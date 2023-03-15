@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Go, Scala and case classes"
-date:   2023-03-15 13:00:00 +0100
+date:   2023-03-14 13:00:00 +0100
 categories: programming-languages
 author: Daniel Fava, co-authored by ChatGPT
 ---
@@ -21,7 +21,7 @@ One of Scala's key features is its support for case classes. Case classes are me
 
 Here's an example of two case classes, `Dollar` and `Euro`, that extend a common `Currency` class in Scala:
 
-```{.scala}
+```scala
 abstract class Currency(val name: String, val alpha: String, val symbol: String)
 
 case class Dollar() extends Currency("US Dollar", "USD, "$")
@@ -41,15 +41,16 @@ println(euro.symbol) // Output: €
 Go, on the other hand, does not have built-in support for case classes.  We will look at three different approaches that can be used instead:
 
 1. structs
-2. enamors
-3. "empty" type definitions
+2. enums
+3. interface and "empty" types definitions
+<!--more-->
 
 
 ## Structs
 
 We use structs to hold data.  Going back to the currency example, we can define a `Currency` struct as such:
 
-```{.go}
+```go
 package main
 
 import (
@@ -93,7 +94,7 @@ Here is an alternative implementation for our "currency" example.  In this imple
 
 The struct here would only have to hold one integer for each currency... so there is no point of a struct at all!  Instead of a struct holding only one integer, we just have that integer for each currency.  In other words, the struct collapses into an enum.
 
-```{.go}
+```go
 package main
 
 import (
@@ -155,7 +156,7 @@ func main() {
 
 We can push this interplay between data and code further.  We don't need an integer for each currency, we could hold that information in the type itself.  In this case, the structs are empty.  We define the `Currency` type as an interface, and each currency then implements this interface accordingly:
 
-```{.go}
+```go
 package currency
 
 type Currency interface {
@@ -260,7 +261,7 @@ Marshaling and unmarshaling structs as in example (1) and enums, like in example
 
 Marshaling for (3) is also easy:
 
-```{.go}
+```go
 jsonData, err := json.Marshal(currency.Dollar)
 if err != nil {
     println(err.Error())
@@ -269,7 +270,7 @@ if err != nil {
 
 How about unmarshal?
 
-```{.go}
+```go
 var d currency.Currency
 err = json.Unmarshal(jsonData, &d)
 if err != nil {
@@ -288,7 +289,7 @@ json.Unmarshal
 
 The `object()` function is trying to figure out what we are unmarshaling into.  It can unmarshal to the empty interface:
 
-```{.go}
+```go
 	if v.Kind() == reflect.Interface && v.NumMethod() == 0 {
 		oi := d.objectInterface()
 		v.Set(reflect.ValueOf(oi))
@@ -298,7 +299,7 @@ The `object()` function is trying to figure out what we are unmarshaling into.  
 
 Otherwise, the `object()` function checks if the kind of the target is a map or a struct.  If it is neither, it returns an error:
 
-```{.go}
+```go
 	default:
 		d.saveError(&UnmarshalTypeError{Value: "object", Type: t, Offset: int64(d.off)})
 		d.skip()
@@ -323,7 +324,7 @@ json.Unmarshal
 
 We to get a bit deeper into the decoder.  The error message is now coming from `liberalStore()`.  At this point inside the unmarshaler, we've determined that we are unmarshaling a string and trying to put it into an interface.  Inside `liberalStore()`  we see this:
 
-```
+```go
 		case reflect.Interface:
 			if v.NumMethod() == 0 {
 				v.Set(reflect.ValueOf(string(s)))
@@ -336,7 +337,7 @@ Again, when trying to unmarshal into an interface, the unmarshaler checks the nu
 
 Somehow we want to tell the unmarshaler to use a custom unmarshaling function when trying to unmarshal to the `Currency` interface.  We could then implement this function in the currency package alongside the interface.  This function would work for all known currencies (USD, EUR, etc).  By "known" I mean currencies known at compile time.  The method would check if the string is `Dollar` and create the dollar type, similar for `Euro` and etc.  We are looking for something like this:
 
-```{.go}
+```go
 func UnmarshalJSON(data []byte) (Currency, error) {
 	var s string
 	if err := json.Unmarshal(data, &s); err != nil {
@@ -367,7 +368,7 @@ Scala faces a similar issue, and it offers a couple of solution:
 
 We can get a similar effect as sealed traits in Go by adding an un-exported function signature to the interface.  For example:
 
-```{.go}
+```go
 type Currency interface {
 	Name() string
 	Alpha() string
@@ -386,7 +387,7 @@ How do we tell the unmarshaler in `encoding/json` to use our custom unmarshaler 
 
 The problem boils down to associating a "static" function to an interface.  Looking at the method signature for our unmarshaler.  It doesn't have a receive object:
 
-```{.go}
+```go
 func UnmarshalJSON(data []byte) (Currency, error) {
 ```
 
