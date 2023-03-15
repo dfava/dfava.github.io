@@ -5,16 +5,6 @@ date:   2023-03-14 13:00:00 +0100
 categories: programming-languages
 author: Daniel Fava, co-authored by ChatGPT
 ---
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    processEscapes: true
-  }
-});
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-
 In this blog post, we will take a look at Go and Scala, and specifically, at their approach to case classes.
 
 One of Scala's key features is its support for case classes. Case classes are meant for holding immutable data. They are similar to regular classes, but they come with a number of useful features out-of-the-box, such as the ability to generate a toString method, a copy method; they also come with matching support.
@@ -30,12 +20,12 @@ case class Euro() extends Currency("Euro", "EUR", "€")
 val dollar = Dollar()
 val euro = Euro()
 
-println(dollar.name) // Output: US Dollar
-println(dollar.alpha) // Output: USD
+println(dollar.name)   // Output: US Dollar
+println(dollar.alpha)  // Output: USD
 println(dollar.symbol) // Output: $
-println(euro.name) // Output: Euro
-println(euro.alpha) // Output: EUR
-println(euro.symbol) // Output: €
+println(euro.name)     // Output: Euro
+println(euro.alpha)    // Output: EUR
+println(euro.symbol)   // Output: €
 ```
 
 Go, on the other hand, does not have built-in support for case classes.  We will look at three different approaches that can be used instead:
@@ -48,7 +38,7 @@ Go, on the other hand, does not have built-in support for case classes.  We will
 
 ## Structs
 
-We use structs to hold data.  Going back to the currency example, we can define a `Currency` struct as such:
+We use structs to hold data.  Going back to the currency example, we can define a `Currency` as such:
 
 ```go
 package main
@@ -90,9 +80,9 @@ func main() {
 
 Enums, short for enumerations, are a type in programming that allows you to define a set of named values. They are used to represent a fixed set of possible values for a variable, parameter, or property.
 
-Here is an alternative implementation for our "currency" example.  In this implementation, we are removing information from the structs and putting that information in methods.  If you squint, you can see the interplay between [data and code]().  Meaning, functions or algorithms can be implemented as table look-ups, where the function's behavior is precomputed and stored in a data structure, rather than being computed on the fly.  Conversely, data can sometimes be computed or generated on-the-fly by code, rather than being stored directly in memory.
+Here is an alternative implementation to our "currency" example.  In this implementation, we are removing information from the structs and putting it in methods.  If you squint, you can see the interplay between [data and code]():  Functions can be implemented as table look-ups, where the function's behavior is precomputed and stored in a data structure, rather than being computed on the fly.  Conversely, data can sometimes be computed or generated on-the-fly by code, rather than being stored.
 
-The struct here would only have to hold one integer for each currency... so there is no point of a struct at all!  Instead of a struct holding only one integer, we just have that integer for each currency.  In other words, the struct collapses into an enum.
+The struct here would only have to hold one integer for each currency... so there is no point of a struct at all!  Instead of a struct holding an integer, we just have the integer.  And we have one integer value for each currency.  In other words, the struct collapses into an enum.
 
 ```go
 package main
@@ -154,7 +144,9 @@ func main() {
 
 ## Empty struct
 
-We can push this interplay between data and code further.  We don't need an integer for each currency, we could hold that information in the type itself.  In this case, the structs are empty.  We define the `Currency` type as an interface, and each currency then implements this interface accordingly:
+We can push this interplay between data and code further.  We don't need an integer for each currency, we can have that information in the type itself.  With this approach, the struct is empty.
+
+We define the `Currency` type as an interface, and each currency then implements this interface accordingly:
 
 ```go
 package currency
@@ -231,33 +223,28 @@ func (empty) Valid() bool {
 
 ## Comparison
 
+The three approaches above have their pros and cons.
+
 1. struct
-  - pros
-    - the variable `structs.currency.Dollar` cannot be redefined; the variable is of type `dollar` and these types are unexported.
-  - cons
-    - we expose the internal structure to library clients
+  - *pros:* the variable `structs.currency.Dollar` cannot be redefined; the variable is of type `dollar` and these types are unexported.
+  - *cons:* we expose the internal structure to library clients
 
 2. enums
-  - pros
-    - currencies like `enum.currency.Dollar` are defined as `const`, so they cannot be re-assigned
-  - cons
-    - we need to implement accessor methods (those methods don't come for free)
+  - *pros:* currencies like `enum.currency.Dollar` are defined as `const`, so they cannot be re-assigned
+  - *cons:* we need to implement accessor methods (those methods don't come for free)
 
-3. empty structs
-  - pros
-    - the variable `emptystruct.currency.Dollar` cannot be redefined; the variable is of type `dollar` and these types are unexported.
-    - well defined interface
-  - cons
-    - we need to implement accessor methods (those methods don't come for free)
+3. empty struct; information in the type
+  - *pros:* the variable `emptystruct.currency.Dollar` cannot be redefined; the variable is of type `dollar` and these types are unexported.  We have well defined interfaces.
+  - *cons:* we need to implement accessor methods (those methods don't come for free in Go, like they do in Scala)
 
-To me, option (3) is what comes closer to case classes.  Unfortunately, options (3) is not very idiomatic Go.  That option also relies more heavily on the capabilities of the type system.  And that's where things start to go wrong for Go.  To illustrate, let's look at marshaling.
+To me, option (3) is what comes the closest to case classes.  Unfortunately, options (3) is not very idiomatic Go.  That option also relies more heavily on the capabilities of the type system.  And that's where things start to go wrong for Go.  To illustrate, let's look at marshaling.
 
 
 ## Marshaling and Unmarshaling
 
 Marshaling is the process of converting an object or data structure from its in-memory representation to a format that can be stored or transmitted. In other words, marshaling takes an object in a program's memory and converts it to a format that can be written to disk, sent over a network, or otherwise persisted.
 
-Marshaling and unmarshaling structs as in example (1) and enums, like in example (2), is trivial.  When marshaling a struct, you do structural decomposition of the struct's elements until you get to elementary data elements (like ints and strings).  Thankfully, the `json` package does that for us, so we don't even think about this decomposition.
+It is trivial to marshal and unmarshal structs as in example (1) and enums, like in example (2).  When marshaling a struct, you do structural decomposition of the struct's elements until you get to elementary data types.  Thankfully, the `json` package does that for us, so we don't even think about this decomposition.
 
 Marshaling for (3) is also easy:
 
@@ -278,7 +265,7 @@ if err != nil {
 }
 ```
 
-The attempt above gives a runtime error: `Error unmarshaling JSON: json: cannot unmarshal object into Go value of type currency.Currency`.  If we trace through the json package, we see the following stack trace:
+The code above gives a runtime error: `Error unmarshaling JSON: json: cannot unmarshal object into Go value of type currency.Currency`.  If we trace through the json package, we see the following stack trace:
 
 ```
 json.Unmarshal
@@ -290,24 +277,23 @@ json.Unmarshal
 The `object()` function is trying to figure out what we are unmarshaling into.  It can unmarshal to the empty interface:
 
 ```go
-	if v.Kind() == reflect.Interface && v.NumMethod() == 0 {
-		oi := d.objectInterface()
-		v.Set(reflect.ValueOf(oi))
-		return nil
-	}
+if v.Kind() == reflect.Interface && v.NumMethod() == 0 {
+    oi := d.objectInterface()
+    v.Set(reflect.ValueOf(oi))
+    return nil
+}
 ```
 
-Otherwise, the `object()` function checks if the kind of the target is a map or a struct.  If it is neither, it returns an error:
+Otherwise, the `object()` function checks if the kind of the target is a map or a struct.  If it is neither, it returns the error we've seen:
 
 ```go
-	default:
-		d.saveError(&UnmarshalTypeError{Value: "object", Type: t, Offset: int64(d.off)})
-		d.skip()
-		return nil
-	}
+default:
+    d.saveError(&UnmarshalTypeError{Value: "object", Type: t, Offset: int64(d.off)})
+    d.skip()
+    return nil
 ```
 
-Maybe you are thinking... "wait a minute, how can the unmarshaler be able to tell what object it's dealing with?"  Let's make the example simpler.  Say we write a marshaler that marshals our currency into strings, like "Dollar" or "Euro".  Then what we want to express is simple:
+Maybe you are thinking... "wait a minute, how can the unmarshaler be able to tell what object it's dealing with?"  Let's make the example simpler.  Say we write a marshaler that marshals our currency into strings like "Dollar" and "Euro".  Then what we want the unmarshaler to do is simple:
 
 1. Parse the JSON, unmarshal it as a string, then check:
 2. If the string is "Euro", return `euro{}`.  If the string is "Dollar" return `dollar{}`.  Otherwise, return `empty{}`.
@@ -322,51 +308,51 @@ json.Unmarshal
         json.(*decodeState).literalStore
 ```
 
-We to get a bit deeper into the decoder.  The error message is now coming from `liberalStore()`.  At this point inside the unmarshaler, we've determined that we are unmarshaling a string and trying to put it into an interface.  Inside `liberalStore()`  we see this:
+We to get a bit deeper into the decoder.  The error message is now coming from `literalStore()`.  At this point, the unmarshaler has determined that it's unmarshaling a string and it is trying to put it into an interface.  Inside `literalStore()` we see this:
 
 ```go
-		case reflect.Interface:
-			if v.NumMethod() == 0 {
-				v.Set(reflect.ValueOf(string(s)))
-			} else {
-				d.saveError(&UnmarshalTypeError{Value: "string", Type: v.Type(), Offset: int64(d.readIndex())})
-			}
+case reflect.Interface:
+    if v.NumMethod() == 0 {
+        v.Set(reflect.ValueOf(string(s)))
+    } else {
+        d.saveError(&UnmarshalTypeError{Value: "string", Type: v.Type(), Offset: int64(d.readIndex())})
+    }
 ```
 
 Again, when trying to unmarshal into an interface, the unmarshaler checks the number of methods declared by the interface.  If there is one or more methods declared, the unmarshaler errors out.  So it's possible to unmarshal to an empty interface, but we can't unmarshal to `Currency` because `Currency` declares several methods.
 
-Somehow we want to tell the unmarshaler to use a custom unmarshaling function when trying to unmarshal to the `Currency` interface.  We could then implement this function in the currency package alongside the interface.  This function would work for all known currencies (USD, EUR, etc).  By "known" I mean currencies known at compile time.  The method would check if the string is `Dollar` and create the dollar type, similar for `Euro` and etc.  We are looking for something like this:
+We want to somehow tell the unmarshaler to use custom logic when dealing with the `Currency` interface.  We could then implement this logic in the currency package alongside the interface.  The algorithm would work for all known currencies (USD, EUR, etc).  By "known" I mean currencies known at compile time.  The method would check if the string is `Dollar` and create the dollar type, similar for `Euro` and etc.  We want something like this:
 
 ```go
 func UnmarshalJSON(data []byte) (Currency, error) {
-	var s string
-	if err := json.Unmarshal(data, &s); err != nil {
-		return EMPTY, err
-	}
+    var s string
+    if err := json.Unmarshal(data, &s); err != nil {
+        return Empty, err
+    }
     switch (s) {
       case "USD":
-        return USD, nil
+        return Dollar, nil
       case "EUR":
-        return EUR, nil
+        return Euro, nil
       default:
-        return EMPTY, "Invalid currency"
+        return Empty, "Invalid currency"
     }
 }
 ```
 
-Even if this were possible in Go and the json package, what happens if we want to create a new currency?
+Even if this were possible in Go and the json package, what happens if someone creates a new currency by implementing the interface methods?
 
 
 ### Sealed interfaces
 
-Say we managed to ship the currency package out.  Then someone comes along and implements another currency; the Brazilian Real, for example. What should the unmarshaler do?  What can the currency package managers do?  
+Say we managed to ship the currency package out.  Then someone comes along and implements another currency; the Brazilian Real, for example. What should our custom unmarshaler do when it encounters this new currency?  Since the unmarshaler was implemented before this new currency, it will not recognize that currency and will return the empty one instead along with an error.  What can the currency package managers do about this?  
 
-Scala faces a similar issue, and it offers a couple of solution:
+Scala faces a similar issue, and it offers a couple of solutions:
 
-- you can prevent classes from being extended by declaring it the class as `final`, or
-- you can define a `sealed` trait. A `sealed` trait can only be extended in the same source file it is declared.
+- we can prevent classes from being extended by declaring them as `final`, or
+- we can define a `sealed` trait. A `sealed` trait can only be extended in the same source file it is declared.
 
-We can get a similar effect as sealed traits in Go by adding an un-exported function signature to the interface.  For example:
+In Go, we can get a similar effect as sealed traits by adding an unexported function signature to the interface.  For example:
 
 ```go
 type Currency interface {
@@ -378,22 +364,20 @@ type Currency interface {
 }
 ```
 
-Because of `sealed()` in the interface definition (or any lowercase function for that matter), only the currency package will be able to implement currencies.  I first read about the idea from [Chewxy](https://blog.chewxy.com/2018/03/18/golang-interfaces/#sealed-interfaces).  By using sealed interfaces, [BurntSushi](https://github.com/BurntSushi/go-sumtype) has built a tool for checking exhaustive patter matching in Go.  Neat stuff.
+Because of `sealed()`, only the currency package will be able to implement currencies.  (Note that there is nothing special about the name "`sealed`".  We could have used any lowercase function name.) 
 
-Sealed interfaces solves one of our problems; but we are still left with the problem of: _how to plumb the implementation of our unmarshaling function into the `encoding/json` package._  Concretely, we want to use `func UnmarshalJSON(data []byte) (Currency, error)` inside `literalStore()` in the `encoding/json` package.
+I learned about sealed interfaces in Go from [Chewxy](https://blog.chewxy.com/2018/03/18/golang-interfaces/#sealed-interfaces).  And by using sealed interfaces, [BurntSushi](https://github.com/BurntSushi/go-sumtype) has built a tool for checking exhaustive patter matching in Go.  Neat :-)
 
-How do we tell the unmarshaler in `encoding/json` to use our custom unmarshaler when the unmarshaler encounters the `Currency` interface?  Sorry... that was a long question.  Read it again :-)
+Sealed interfaces solves one of our problems: that of safely extending currencies inside the `currency` package.  But we are still left with one problem: _how to plumb the implementation of our unmarshaling function into the `encoding/json` package._  Concretely, we want to use `func UnmarshalJSON(data []byte) (Currency, error)` inside `literalStore()` in the `encoding/json` package.
 
-
-The problem boils down to associating a "static" function to an interface.  Looking at the method signature for our unmarshaler.  It doesn't have a receive object:
+The problem boils down to associating a "static" function to an interface.  Looking at the method signature for our unmarshaler; it doesn't have a receiving object:
 
 ```go
 func UnmarshalJSON(data []byte) (Currency, error) {
 ```
 
-
-For better or worse, there is no way in Go to express a "static" function that is associated with an interface.  So getting our custom unmarshaling would either require a change to Golang itself, or at the very least some serious change to the `encoding/json` package...
+The custom unmarshal logic doesn't operate on an instance; it "operates on the class."  For better or worse, there is no way in Go to express a "static" function of an interface. At least not as far as I know.
 
 ## Conclusion
 
-There are may ways to implement something like case classes in Go.  None of them seem to do justice in my opinion.  I miss algebraic data types.  If we had them, error handling in Go would look nicer.  But I am getting ahead of myself!  Before you think that I'm advocating for changes to Go (or the json package), you should watch [this talk by Rob Pike](https://www.youtube.com/watch?v=rFejpH_tAHM&t=3s).  Languages are different.  I too can get annoyed with Go sometimes.  But I'm also glad that Go isn't like Scala!  Scala is great in many ways, I am glad it exists, and I love functional programming in general.  But Go's goals are different, and I can respect and appreciate that as well.
+There are may ways to implement something like case classes in Go.  None of them seem to do justice, in my opinion.  As a Go programmer, I miss algebraic data types.  If we had them, error handling in Go would look nicer.  But I am getting ahead of myself!  Before you think that I'm advocating for changes to Go or the json package, you should watch [this talk by Rob Pike](https://www.youtube.com/watch?v=rFejpH_tAHM&t=3s).  Languages are different.  I too get annoyed with the lack of this or that.  But I'm also glad that Go isn't like Scala!  Scala is great in many ways, I am glad it exists, and I love functional programming in general.  But Go's goals are different from Scala's, and I welcome their difference.
