@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "What I think about when I think about music"
+date:   2025-05-17 09:50:00 +0100
+categories: music
+author: Daniel Fava and ChatGPT
+---
+
+- [period music]
+- [Brahms and Beethoven]
+- [Mahler, philosophical music, and art]
+- [postmodernism, the industrial revolution, and contemporary classical music]
+
+- [twelve tone music]
+- [stravinsky _Le Sacre du Printemps_ and his arrest]
+- [Erik Satie and Richard Strauss]
