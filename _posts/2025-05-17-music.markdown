@@ -6,11 +6,21 @@ categories: music
 author: Daniel Fava and ChatGPT
 ---
 
-- [period music]
-- [Brahms and Beethoven]
-- [Mahler, philosophical music, and art]
-- [postmodernism, the industrial revolution, and contemporary classical music]
+Recently I started to learn to play the piano on my own.
+With an app installed on my phone, I began the ABCs of piano playing from the very beginning.
+Eventually I started having questions about music theory, and ChatGPT and Youtube have been great learning partners.
+I've also used ChatGPT to explore musical topics that excited me.
+I figured that being inspired by music in general would keep my motivation.
+ChatGPT recommended me a book that is a conversation between a writer and a composer ([aboslutely on music](https://en.wikipedia.org/wiki/Absolutely_on_Music)).
+The book openned a fantastic door for me, which I explored together with ChatGPT.
+I would like to share this newly found space with you.
+So here is a collection of conversations that I've had with ChatGPT on music.
 
-- [twelve tone music]
-- [stravinsky _Le Sacre du Printemps_ and his arrest]
-- [Erik Satie and Richard Strauss]
+- [postmodernism, the industrial revolution, and contemporary classical music] postmodernism.markdown
+- [Mahler, philosophical music, and art] marhler_philosophical_music.markdown
+- [Brahms and Beethoven] brahsm_and_beethoven.markdown
+- [Period music] period_music.markdown
+
+- [twelve tone music] twelve_tone.markdown
+- [stravinsky _Le Sacre du Printemps_ and his arrest] stravinsky.markdown
+

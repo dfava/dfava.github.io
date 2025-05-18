@@ -1,8 +1,8 @@
-- [period music]
--
-
-
-
+---
+date:   2025-05-17 09:50:00 +0100
+categories: music
+author: Daniel Fava and ChatGPT
+---
 
 Q: Why do people say Brahms first symphony is as if it were Beethoven’s tenth symphony?
 
