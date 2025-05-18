@@ -9,7 +9,11 @@ In this blog post, we will take a look at Go and Scala, and specifically, at the
 
 One of Scala's key features is its support for case classes. Case classes are meant for holding immutable data. They are similar to regular classes, but they come with a number of useful features out-of-the-box, such as the ability to generate a toString method, a copy method; they also come with matching support.
 
-Here's an example of two case classes, `Dollar` and `Euro`, that extend a common `Currency` class in Scala:
+Go, on the other hand, does not have built-in support for case classes.  We will look at three different approaches that can be used instead.
+
+<!--more-->
+
+Before we dive into Go, here's an example of two case classes, `Dollar` and `Euro`, that extend a common `Currency` class in Scala:
 
 ```scala
 abstract class Currency(val name: String, val alpha: String, val symbol: String)
@@ -28,12 +32,11 @@ println(euro.alpha)    // Output: EUR
 println(euro.symbol)   // Output: €
 ```
 
-Go, on the other hand, does not have built-in support for case classes.  We will look at three different approaches that can be used instead:
+Next, we'll try three different approaches to model case classes in Go:
 
 1. structs
 2. enums
 3. interface and "empty" types definitions
-<!--more-->
 
 
 ## Structs

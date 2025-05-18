@@ -20,6 +20,8 @@ One interesting thing about the book is that you can listen to the pieces they a
 This opened a fantastic door for me, which I continue to explore with the help of ChatGPT even after finishing the book.
 Here is a collection of conversations with ChatGPT that I've found interesting.
 
+<!--more-->
+
 The first is a conversation about the end of the romantic period, the industrial revolution, postmodernism, and the contemporary classical music: [Postmodernism, the industrial revolution, and contemporary classical music](/music/postmodernism.html).
 
 This one is part of a conversation about Mahler where ChatGPT called a piece of music philosophical, and we explored what that meant:

@@ -9,6 +9,8 @@ This is a short post on how measuring performance can backfire.  So you are tryi
 
 We will walk through two ideas which, put together, lead to the concept of _"you get what you measure."_  We then close with what this could mean for your organization.
 
+<!--more-->
+
 
 ## Measurement influences behavior
 
