@@ -3,6 +3,7 @@ layout: page
 title:  "Marhler and what it means for music to be philosophical"
 author: Daniel Fava and ChatGPT
 permalink: /music/marhler_philosophical_music
+show_in_nav: false
 ---
 
 

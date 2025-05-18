@@ -3,6 +3,7 @@ layout: page
 title:  "Period music and listening to subtleties"
 author: Daniel Fava and ChatGPT
 permalink: /music/period_music
+show_in_nav: false
 ---
 
 Q: What is “period-instrument” as concerned with orchestras and musical tendencies?

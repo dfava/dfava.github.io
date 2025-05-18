@@ -3,6 +3,7 @@ layout: page
 title:  "Twelve tone music"
 author: Daniel Fava and ChatGPT
 permalink: /music/twelve_tone
+show_in_nav: false
 ---
 
 

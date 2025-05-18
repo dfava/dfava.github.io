@@ -3,6 +3,7 @@ layout: page
 title:  "Ken Russell's movie on Mahler"
 author: Daniel Fava and ChatGPT
 permalink: /music/marhler_ken_russell_film
+show_in_nav: false
 ---
 
 Q: The depiction of Mahler in Ken Russell's movie isn't very flattering.  He seems very entitled.  Is the movie factual?

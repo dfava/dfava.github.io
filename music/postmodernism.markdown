@@ -3,6 +3,7 @@ layout: page
 title:  "Postmodernism, the industrial revolution, and contemporary classical music"
 author: Daniel Fava and ChatGPT
 permalink: /music/postmodernism
+show_in_nav: false
 ---
 
 
