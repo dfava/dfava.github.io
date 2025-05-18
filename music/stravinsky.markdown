@@ -1,6 +1,6 @@
 ---
 layout: page
-title:  "Stravinsky, _Le Sacre du Printemps_, and his arrest"
+title:  "Stravinsky's Le Sacre du Printemps, and his arrest"
 author: Daniel Fava and ChatGPT
 permalink: /music/stravinsky
 show_in_nav: false
