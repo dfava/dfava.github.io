@@ -2,6 +2,7 @@
 layout: page
 title: News
 permalink: /news/
+show_in_nav: false
 ---
 
 #### 2021

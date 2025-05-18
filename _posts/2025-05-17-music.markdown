@@ -10,9 +10,9 @@ With an app installed on my phone, I began to learn from the very beginning.
 Eventually I started having questions about music theory, and I started using ChatGPT and Youtube as learning partners.
 I figured that being inspired by music in general would keep my motivation,
 so I started reading a book,
-:book: [Aboslutely on music](https://en.wikipedia.org/wiki/Absolutely_on_Music),
+:book: [Absolutely on music](https://en.wikipedia.org/wiki/Absolutely_on_Music),
 that is a conversation between the author and an orchestra conductor.
-This book openned a fantastic door for me, which I continue exploring with the help of ChatGPT.
+This book opened a fantastic door for me, which I continue exploring with the help of ChatGPT.
 Here is a collection of conversations with ChatGPT that I've found interesting.
 
 - [Postmodernism, the industrial revolution, and contemporary classical music](/music/postmodernism.html)
