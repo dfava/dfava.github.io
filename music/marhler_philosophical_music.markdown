@@ -1,7 +1,9 @@
-- [period music]
-- [Brahms and Beethoven]
-- [Mahler and philosophical music]
-
+---
+layout: page
+title:  "Marhler and what it means for music to be philosophical"
+author: Daniel Fava and ChatGPT
+permalink: /music/marhler_philosophical_music
+---
 
 
 Q: What does it mean for the music to be “emotionally intense and philosophical”?  I guess I can understand the emotional part, but how does “philosophical” come through?

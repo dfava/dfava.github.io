@@ -15,11 +15,11 @@ that is a conversation between the author and an orchestra conductor.
 This book openned a fantastic door for me, which I continue exploring with the help of ChatGPT.
 Here is a collection of conversations with ChatGPT that I've found interesting.
 
-- [postmodernism, the industrial revolution, and contemporary classical music](/music/postmodernism.html)
-- [Mahler, philosophical music, and art](/music/marhler_philosophical_music.html)
-- [Brahms and Beethoven](/music/brahsm_and_beethoven.html)
-- [Period music](/music/period_music.html)
+- [Postmodernism, the industrial revolution, and contemporary classical music](/music/postmodernism.html)
+- [Mahler and what it means for music to be philosophical](/music/marhler_philosophical_music.html)
+- [Brahms as a continuation of Beethoven](/music/brahsm_and_beethoven.html)
+- [Period music and listening to subtleties](/music/period_music.html)
 
-- [twelve tone music](/music/twelve_tone.html)
-- [stravinsky _Le Sacre du Printemps_ and his arrest](/music/stravinsky.html)
+- [Twelve tone music](/music/twelve_tone.html)
+- [Stravinsky, _Le Sacre du Printemps_, and his arrest](/music/stravinsky.html)
 

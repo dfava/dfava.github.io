@@ -1,3 +1,11 @@
+---
+layout: page
+title:  "Twelve tone music"
+author: Daniel Fava and ChatGPT
+permalink: /music/twelve_tone
+---
+
+
 Q: Have we talked about twelve tone music before?  What does that mean?
 
 We haven’t yet — but I’d be glad to explain. **Twelve-tone music** (also called **dodecaphony**) is a 20th-century method of composition created by **Arnold Schoenberg** to organize music in a radically new way — without relying on traditional key centers like C major or A minor.

@@ -1,3 +1,10 @@
+---
+layout: page
+title:  "Ken Russell's movie on Mahler"
+author: Daniel Fava and ChatGPT
+permalink: /music/marhler_ken_russell_film
+---
+
 Q: The depiction of Mahler in Ken Russell's movie isn't very flattering.  He seems very entitled.  Is the movie factual?
 
 You're right to question the portrayal — **Ken Russell's 1974 film *Mahler*** is known for its **expressionistic and highly stylized** approach, and it's **not strictly factual**. It's more of a psychological and symbolic exploration than a traditional biopic.

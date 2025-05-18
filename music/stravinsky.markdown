@@ -1,3 +1,11 @@
+---
+layout: page
+title:  "Stravinsky, _Le Sacre du Printemps_, and his arrest"
+author: Daniel Fava and ChatGPT
+permalink: /music/stravinsk
+---
+
+
 Q: Was the sacre du printemps a radical shift in ballet?
 
 Absolutely — **Igor Stravinsky’s** *Le Sacre du Printemps* (*The Rite of Spring*, 1913) was one of the most radical and disruptive moments in the history of ballet — **musically, choreographically, and culturally**. It shook the foundations of what ballet was thought to be.

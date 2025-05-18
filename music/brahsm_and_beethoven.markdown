@@ -1,9 +1,8 @@
 ---
 layout: page
 title:  "Brahms and Beethoven"
-categories: music
 author: Daniel Fava and ChatGPT
-permalink: /music
+permalink: /music/brahsm_and_beethoven
 ---
 
 Q: Why do people say Brahms first symphony is as if it were Beethoven’s tenth symphony?

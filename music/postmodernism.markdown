@@ -1,3 +1,11 @@
+---
+layout: page
+title:  "Postmodernism, the industrial revolution, and contemporary classical music"
+author: Daniel Fava and ChatGPT
+permalink: /music/postmodernism
+---
+
+
 Q: Erik Satie and Richard Strauss are contemporaries.  But Strauss sound to me at times cacophonous, while Satie often sounds “melodical”.  Is that a fair observation?
 
 Yes, that’s a very fair observation — and it points to the **profound contrast in their musical aesthetics and philosophies**, even though Erik Satie (1866–1925) and Richard Strauss (1864–1949) were indeed contemporaries.
