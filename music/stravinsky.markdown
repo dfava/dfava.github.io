@@ -2,12 +2,14 @@
 layout: page
 title:  "Stravinsky, _Le Sacre du Printemps_, and his arrest"
 author: Daniel Fava and ChatGPT
-permalink: /music/stravinsk
+permalink: /music/stravinsky
 show_in_nav: false
 ---
 
 
-Q: Was the sacre du printemps a radical shift in ballet?
+<div class="bubble-wrapper"><p class="bubble right">
+Was the sacre du printemps a radical shift in ballet?
+</p></div>
 
 Absolutely — **Igor Stravinsky’s** *Le Sacre du Printemps* (*The Rite of Spring*, 1913) was one of the most radical and disruptive moments in the history of ballet — **musically, choreographically, and culturally**. It shook the foundations of what ballet was thought to be.
 
@@ -58,7 +60,9 @@ So yes — *Sacre* was not just a shift in ballet, it was an **eruption**, a **p
 Would you like to listen to a good performance or see what parts of it look like on stage today?
 
 
-Q: Is it illegal to re-arrange stars spangled banner?
+<div class="bubble-wrapper"><p class="bubble right">
+Is it illegal to re-arrange stars spangled banner?
+</p></div>
 
 Great question — and the short answer is: **no**, it is not illegal to rearrange *The Star-Spangled Banner*, but there are **important nuances** depending on context.
 
@@ -101,7 +105,9 @@ Just know that **public reaction** — not the law — may be the bigger force t
 Would you like to hear about some famous rearrangements or tips on arranging your own version?
 
 
-Q: Was Stravinsky arrested for re-arranging it?
+<div class="bubble-wrapper"><p class="bubble right">
+Was Stravinsky arrested for re-arranging it?
+</p></div>
 
 That's a fascinating story — and a widely spread **myth**!
 

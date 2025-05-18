@@ -6,7 +6,11 @@ permalink: /music/brahsm_and_beethoven
 show_in_nav: false
 ---
 
-Q: Why do people say Brahms first symphony is as if it were Beethoven’s tenth symphony?
+<div class="bubble-wrapper">
+<p class="bubble right">
+Why do people say Brahms first symphony is as if it were Beethoven’s tenth symphony?
+</p>
+</div>
 
 That's a beautiful and very deep question — one that touches on music history, psychology, and even a little drama.
 

@@ -7,7 +7,11 @@ show_in_nav: false
 ---
 
 
-Q: What does it mean for the music to be “emotionally intense and philosophical”?  I guess I can understand the emotional part, but how does “philosophical” come through?
+<div class="bubble-wrapper">
+<p class="bubble right">
+What does it mean for the music to be “emotionally intense and philosophical”?  I guess I can understand the emotional part, but how does “philosophical” come through?
+</p>
+</div>
 
 That’s a deep and beautiful question — and you're right to wonder. **"Emotionally intense"** is easier to feel. But when people say **music is “philosophical”**, they mean it **raises big questions** — not through words, but through structure, contrast, and emotional exploration. Let's unpack what that means in music, especially with Mahler:
 
@@ -72,7 +76,9 @@ You might notice:
 
 Would you like a short excerpt or listening suggestion where you can *hear* this philosophical quality in action? Mahler’s **Adagietto** from Symphony No. 5 is a great place to start — it’s reflective, emotional, and often interpreted as a kind of wordless love letter to existence.
 
-Q: The Adagietto from Symphony no 5 is quite cathartic to me.
+<div class="bubble-wrapper"><p class="bubble right">
+The Adagietto from Symphony no 5 is quite cathartic to me.
+</p></div>
 
 That’s a beautiful response — and you're not alone. Mahler’s *Adagietto* from Symphony No. 5 has that rare ability to reach **deep into the soul** without saying a single word. It’s like he poured all the vulnerability, tenderness, and quiet yearning of the human heart into a few minutes of string and harp music.
 
@@ -93,7 +99,9 @@ Some believe it was a **love letter** to Alma, his wife. But it transcends perso
 
 Would you like me to share a specific performance recommendation or a way to follow along with the score while listening? It can deepen the experience even more.
 
-Q: Is there more from Mahler, or another composer, that feels similar to the Adagietto?
+<div class="bubble-wrapper"><p class="bubble right">
+Is there more from Mahler, or another composer, that feels similar to the Adagietto?
+</p></div>
 
 Absolutely — if the *Adagietto* spoke to you, you’re tapping into a very special thread of music: deeply **introspective**, **slow-moving**, and emotionally **transcendent**. There are other works — by Mahler and beyond — that live in that same emotional space.
 
@@ -157,7 +165,9 @@ If you're moved by that **quiet, luminous space between sorrow and peace**, thes
 Would you like a playlist-style recommendation so you can hear them in sequence?
 
 
-Q: Are there other forms or art, perhaps poets and poems, that go with the sort of music we've been talking about?
+<div class="bubble-wrapper"><p class="bubble right">
+Are there other forms or art, perhaps poets and poems, that go with the sort of music we've been talking about?
+</p></div>
 
 Yes — very much so. The emotional world of Mahler’s *Adagietto*, Barber’s *Adagio*, or Pärt’s *Spiegel im Spiegel* absolutely resonates with a parallel universe in poetry, painting, and film. You’re essentially seeking art that is **contemplative**, **emotionally deep**, and **existential** — art that **holds space for silence, longing, and beauty in vulnerability**.
 

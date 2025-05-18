@@ -6,7 +6,9 @@ permalink: /music/period_music
 show_in_nav: false
 ---
 
-Q: What is “period-instrument” as concerned with orchestras and musical tendencies?
+<div class="bubble-wrapper"><p class="bubble right">
+What is “period-instrument” as concerned with orchestras and musical tendencies?
+</p></div>
 
 Excellent — you're touching on a really important concept in how classical music is performed today!
 
@@ -72,7 +74,9 @@ Some famous groups:
 Would you like me to recommend a recording where you can *hear* the difference between period-instrument and modern orchestras? (It's pretty amazing!)
 
 
-Q: Yes please
+<div class="bubble-wrapper"><p class="bubble right">
+Yes please
+</p></div>
 
 Awesome! Here's a side-by-side suggestion that really **shows the difference**:
 
@@ -131,7 +135,9 @@ You can find both versions easily on **YouTube** or on **Spotify** — search:
 Would you like me to also recommend a **Baroque piece**, like Bach or Handel, where the difference is even more striking? (That’s where period instruments really shine!)
 
 
-Q: The Karajan version seems more dense.  Is that right?  Are the string instruments the ones contributing to this denseness?  The trumpet in the Gardiner version sound squeakier, would you agree?
+<div class="bubble-wrapper"><p class="bubble right">
+The Karajan version seems more dense.  Is that right?  Are the string instruments the ones contributing to this denseness?  The trumpet in the Gardiner version sound squeakier, would you agree?
+</p></div>
 
 
 Yes — you are *absolutely* picking up the right things!
@@ -186,7 +192,9 @@ Would you like me to suggest another short piece where the contrast is even *mor
 (If yes, I'll even suggest exactly what to listen for!)
 
 
-Q: Yes please
+<div class="bubble-wrapper"><p class="bubble right">
+Yes please
+</p></div>
 
 Awesome! I’m excited you’re diving deeper — your ears are getting sharper already.
 
