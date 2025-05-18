@@ -31,6 +31,7 @@ github_username:  dfava
 theme: minima
 plugins:
   - jekyll-feed
+  - jemoji
 
 excerpt_separator: <!--more-->
 show_excerpts: true
