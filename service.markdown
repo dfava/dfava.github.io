@@ -84,6 +84,13 @@ Oxford, UK. &nbsp; July, 2018
 
 ### Dissertation Committee Member
 
+<!--- [][student.pajer]</br>
+Pavla Pajer. June 2025-->
+
+- [Psnodig: Converting Source Code to Pseudocode][student.jakobsen]</br>
+Sergey Jakobsen. June 2024
+
+
 - [A Non-Sculpting Theorem in Non-Interleaving Models for Concurrency][student.trotter]<br/>
 Christopher Trotter.  December 2018
 
@@ -114,3 +121,5 @@ Stian Valle.  Autumn 2016
 [sac2020.pdp]: https://www.uni-saarland.de/lehrstuhl/sorge/workshopskonferenzen/acm-sac-2020-track-on-privacy-by-design-in-practice.html
 [student.trotter]: https://www.mn.uio.no/ifi/english/research/groups/psy/completedmasters/2018/trotter
 [student.valle]: https://www.mn.uio.no/ifi/english/research/groups/psy/completedmasters/2016/valle
+[student.jakobsen]: https://www.duo.uio.no/handle/10852/112542
+[student.pajer]: 
