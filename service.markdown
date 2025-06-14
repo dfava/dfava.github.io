@@ -87,7 +87,7 @@ Oxford, UK. &nbsp; July, 2018
 <!--- [][student.pajer]</br>
 Pavla Pajer. June 2025-->
 
-- [Psnodig: Converting Source Code to Pseudocode][student.jakobsen]</br>
+- [Psnodig: Converting Source Code to Pseudocode][student.jakobsen]<br/>
 Sergey Jakobsen. June 2024
 
 
@@ -122,4 +122,3 @@ Stian Valle.  Autumn 2016
 [student.trotter]: https://www.mn.uio.no/ifi/english/research/groups/psy/completedmasters/2018/trotter
 [student.valle]: https://www.mn.uio.no/ifi/english/research/groups/psy/completedmasters/2016/valle
 [student.jakobsen]: https://www.duo.uio.no/handle/10852/112542
-[student.pajer]: 
