@@ -1,0 +1,26 @@
+---
+title:  "Late bloomer: Reflections on Becoming a Tech Lead"
+categories: leadership
+date:   2025-09-22 10:00:00 +0100
+author: Daniel Fava
+---
+
+I started doing low-level programming and architecture at Intel and Apple, then I got a PhD and dabbled in academia.  But it wasn't until I re-joined industry as a high-level software developer that became a tech lead.  And despite my degrees and experience, I still felt uncomfortable with the role.
+
+The truth is, I have an ambivalent attitude towards responsibility.  A former manager of mine once said I had an over-inflated sense of responsibility (I'm pretty sure he didn't mean it as a compliment).  I felt hunted by questions like, what if I don't know what to do or make the wrong call?  What if the circumstance demands my attention but I'm unavailable because I'm feeling disconnected, scared, or sad?  Being an individual contributor (as opposed to a lead) allowed me to take on responsibility without risking divulging the ups and downs of my internal existence.
+
+I knew I was chickening out.  The technical name for it is _avoidance behavior_.  But eventually I felt like I could lean on my colleagues for guidance and moral support, and so I took the tech lead role.
+
+<!--more-->
+
+## Help me, help you
+
+I had recently joined the team when I became tech lead.  That forced me to revisit my romanticized view on infallibility and leadership.  (When a disciple asks a question, a Zen master will sometimes make a silly looking face.  By deliberately embarrassing him/herself, the master quickly moves past the fear of looking foolish, which frees his/her mind to focus on what matters.)  Similarly, I was the first to voice my shortcomings as a newcomer, and I encouraged the team to guide me.
+
+## Company over team, team over individual
+
+In fact, we needed the full engagement of the team.  We were working on a complex and timely corporate merger.  A colleague of mine likened it to assembling and airplane while in free fall.  It was frantic and chaotic.  Operational instability and incident handling took a lot of our focus.  I took on tasks that helped me build my knowledge portfolio while also contributing to the team's mission.  For example, I refactored code that had been neglected during the great reshuffle and automated tasks that sapped attention from the team.  I am learning to be more of an _enabler_ than an individual contributor.  (Although I still enjoy programming and making direct technical contributions)
+
+## Conclusion
+
+Work is not separate from life as a whole; we can only compartmentalize so much.  I started my career focusing mostly on the tech.  Today I'm more interested in _how I work_ and _who I work with_ rather than with _what I work on_.  I'm looking to create a positive feedback loop, with work improving my personal life and vice-versa.  Being a tech lead, I felt vulnerable but also lucky to be surrounded by people who are helping me become a better version of myself.  
