@@ -4,5 +4,4 @@
 
 layout: home
 title: Posts
-show_in_nav: false
 ---

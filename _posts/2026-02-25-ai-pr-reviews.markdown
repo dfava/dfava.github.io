@@ -27,6 +27,8 @@ These are the types of changes are large (boring to be made by a human), but eas
 
 What I really dislike is changes that are large and modify logic (as opposed to being syntactical).  Those types of changes (semantic changes) are hard to review and carry a lot of risk.  We need to try to break these down into paletable chunks that are digestible by a human.  I'm not quite ready to let an AI take care of banking accounting systems, for example. It's too risky; it would be a recipe for disaster.
 
+<!--more-->
+
 ## Breaking it down
 
 When adding a feature, or making a modification in general, we need to understand which parts fall in which subspaces, and we need to craft the work and the pull-requests into chunks.  Each chunk fitting into one of these subspaces.  Meaning.. don’t mix a risky semantical changes together with a thousand of lines syntactical change!
