@@ -4,10 +4,7 @@ title: About
 permalink: /about/
 ---
 <img src="/img/dfava.jpg" alt="Daniel Fava" align="left" class="img-thumbnail" width="200" hspace="20" vspace="15"><br/><br/><br/>
-danielsf@ifi.uio.no<br/>
-[Reliable Systems group][psy]<br/>
-[Department of Informatics][ifi]<br/>
-[University of Oslo, Norway][uio]<br/>
+daniel.fava@gmail.com<br/>
 [<img src="/img/gscholar.png" alt="Google scholar" width="40" height="40" />][google.scholar]
 [<img src="/img/linkedin.png" alt="LinkedIn" width="30" height="30" />][linkedin]&nbsp;
 [<img src="/img/github.png" alt="GitHub" width="30" height="30" />][github]
