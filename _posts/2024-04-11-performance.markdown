@@ -47,6 +47,32 @@ Say you decide to measure quality by how fast tickets are responded to (as oppos
 
 Once you have put a system in place to measure (1) an adaptive system that (2) can only the quantified via a proxy, then _you get what you measure_.  And what you measure is not necessarily what you want to foster.  No matter how complex you make the metrics, there will come a point where optimizing for the metric will clash with simply "doing the right thing." 
 
+This is known as [Goodhart's law](https://en.wikipedia.org/wiki/Goodhart%27s_law): "When a measure becomes a target, it ceases to be a good measure."
+
+<!--
+_A measurement isn't merely an observation of X; it helps define what X means._  
+A measurement isn't merely an observation of productivity; it helps define what "productivity" means.
+
+There exists a connection with Michel Foucault; which may be interesting to explore
+
+Modern institutions don't primarily control people through force.
+
+They control by making people legible.
+
+- Schools produce grades.
+- Hospitals produce medical records.
+- Governments produce censuses.
+- Companies produce performance reviews.
+
+Once people become legible, they become manageable.
+
+He's interested not only in the corruption of the measurement, but in the transformation of the subject.
+
+---
+
+Foucault often treats classification as an intervention rather than a passive description.
+-->
+
 ## Over time
 
 You are probably thinking: "That's a pretty cynical view on people!" or "The people I work with are not like you describe".
