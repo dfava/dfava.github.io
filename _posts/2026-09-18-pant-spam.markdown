@@ -1,0 +1,98 @@
+---
+layout: post
+title: "Panting email: Norway’s bottle-deposit system against spam"
+date: 2026-09-18 00:00:00 +0000
+category: technology
+author: Daniel Fava and Codex
+---
+
+Email is one of the great bargains of modern life.  I can send a message around the world for almost nothing.  The person receiving it pays nothing either.
+
+Well, almost nothing.
+
+Somebody runs the mail servers.  Somebody pays for storage, spam filters and engineers who have spent far too much of their lives deciding whether `FREE!!!` is a good sign.  The cost is real, but it is mostly invisible to the sender.
+
+That is a lovely arrangement if you are writing to a friend.  It is also a lovely arrangement if you are trying to send ten million messages about a miracle cream.
+
+<!--more-->
+
+We have tried to fix this with filters, blocklists, reputation and an impressive amount of machine learning.  These are useful, but the economics are still a little lopsided: a spammer only needs a small fraction of people to react, while everybody else has to pay the attention tax.
+
+What if sending an email came with pant?
+
+## A short detour to the supermarket
+
+In Norway, a bottle or can has a small deposit attached to it.  You pay it when buying the drink, and get it back when you return the empty container.  It is a remarkably pleasant little system.  You are not punished for buying a bottle; you are nudged to deal with the part of the bottle that is no longer useful to you.
+
+A nice feature of pant is that it does not try to decide whether you are a good person.  It merely puts a price on leaving the can in the wrong place.  You get your money back by doing the thing that keeps the system working.
+
+Email needs something similar.  Not a price for writing an email—that would make the Internet much less useful—but a small, refundable bond for imposing on somebody else's inbox.
+
+## The problem with calling something spam
+
+Before anyone suggests an AI that decides whether every email is legitimate, there is an awkward detail: legitimate for whom?
+
+I may consider an email about discounted hiking boots to be spam.  Somebody patiently waiting for a sale on hiking boots may consider it a public service.  A newsletter that I signed up for can be welcome in September and annoying in October.  "Spam" is not a property of the message in isolation; it is a relationship between a message and its recipient.
+
+That is why the recipient should get to decide whether a message is useful.  A mail provider can help with filters and safety checks, but it should not pretend that it has found an objective definition of welcome marketing.
+
+## Panting an email
+
+Here is the basic idea.
+
+When a sender gives an email to their outgoing mail service, it also places a tiny deposit in escrow.  The deposit is tied to that particular message and recipient domain.  The message still travels through the normal email system, but it carries a signed reference to its deposit.
+
+The receiving mail service has a few possible outcomes:
+
+1. The message is accepted and is not reported as spam before a deadline.  The deposit returns to the sender.
+2. The recipient reports it as spam.  The deposit is forfeited to a shared pool that helps pay for mail delivery and filtering.
+3. The message cannot be delivered, or the receiving service declines to participate.  The deposit returns immediately.
+
+The important detail is where the lost money goes.  It should not go to the recipient.  If marking a message as spam paid me directly, I would soon find a surprising amount of spam in my own inbox.  A pooled fund for participating mail infrastructure is less exciting, but systems that make cheating boring are often the best kind.
+
+For an ordinary person, the deposit could be so small that it is invisible.  For a bulk sender, it becomes a meaningful cost exactly when recipients repeatedly decide that the messages are unwelcome.  A company sending a receipt, a password-reset link or a newsletter to people who asked for it gets its money back.  A company buying a questionable mailing list eventually acquires an expensive hobby.
+
+There is a positive incentive for the honest marketer too.  A returned deposit says that a particular message was not rejected as spam; a forfeited one says that the sender should probably stop spending money and attention on that relationship.  That is useful information.  Instead of treating every address on a list as a possible conversion, a sender can stop bothering people who clearly do not want the messages and concentrate on the people with whom it has a real relationship.
+
+Of course, a returned deposit does not mean that somebody loved the email, opened it, or rushed to buy hiking boots.  It only means that they did not mark it as spam.  But that modest signal is still more honest than pretending silence is enthusiasm.  It gives the sender a reason to make a mailing list smaller and better, rather than merely larger.
+
+## Could it actually work?
+
+Technically, the pieces are not science fiction.  Email already has identifiers, cryptographic authentication through DKIM, and protocols for mail servers to negotiate capabilities.  A deposit system would need a few more pieces:
+
+* a durable message identifier, signed by the sender's mail service;
+* an escrow record containing the amount, expiry time, sender and recipient domain;
+* a way for the recipient's mail service to report `accepted`, `spam`, or `undeliverable`;
+* rules that prevent the same deposit from being spent twice, or a spam report from being submitted twice; and
+* a way to settle many very small deposits without paying a transaction fee for every newsletter in the world.
+
+The last point matters.  Putting one blockchain transaction behind every email would be a slightly elaborate way of turning spam into expensive electricity.  The practical design is more likely to use a prefunded account or payment channel.  A sender locks up a larger balance once, then signs cheap, short-lived promises against it.  The mail providers batch their final settlement later.
+
+There is an appealingly named protocol in this neighborhood: [x402][x402].  It revives the HTTP `402 Payment Required` response so that a client can be told how to pay for an Internet resource, provide a signed payment authorization, and retry the request.  It also separates the payment scheme from the transport, and has an experimental-looking path for batching payments.
+
+This does not mean that we can put x402 in front of SMTP and go home early.  Its common payment schemes model a buyer paying a resource server.  Pant-email needs a three-stage arrangement: the sender locks a bond, the recipient can produce a later outcome, and the sender is refunded or the bond is forfeited.  That is closer to escrow than a normal one-way payment.
+
+Still, x402 is a useful shape for the problem.  Rather than inventing wallet formats, signed payment payloads and a settlement service from scratch, a pant-email protocol could define:
+
+* an SMTP extension through which a receiving domain advertises that it accepts bonded mail;
+* a new x402 payment scheme, perhaps called `refundable-bond`;
+* a deposit contract or provider-held ledger that locks the sender's maximum exposure; and
+* signed, idempotent outcome receipts from the receiving provider.
+
+In the first delivery attempt, the receiving domain would return its bond requirements: amount, currency, expiry and its public key.  The sending service would create a payment authorization for that particular message and retry with the authorization attached.  The recipient's service would verify the authorization before accepting the message.  At the end of the reporting window it would settle one of two signed outcomes: refund, or forfeit.
+
+There are a few details hiding inside that innocent paragraph.  The amount cannot be fixed for everybody: a personal message and a marketing campaign have different costs and abuse profiles.  The recipient provider needs a rate limit on reports, an audit trail, and perhaps a way for senders to challenge obvious mistakes.  And a message forwarded through three mailing lists should not accidentally grow three deposits and a family of lawyers.
+
+The system should also be careful not to turn this into a new tracking device.  The receiver's signal can be a signed, per-message `refund` or `forfeit` receipt sent to the sender's mail service, without reporting when the recipient read the message, where they were, or what they did next.  A recipient should be able to say "no more of this" without handing over an analytics report.
+
+## Start small
+
+The hardest problem is not the escrow contract.  It is adoption.
+
+Email only works because nearly everyone can send email to nearly everyone else.  A system that rejects all unbonded mail on day one would mostly reject useful mail.  I would start with an opt-in signal instead: participating mail providers could give bonded messages a small delivery advantage, while accepting ordinary email as before.  Bulk senders would be the natural early adopters, since they already operate delivery infrastructure and care about inbox placement.  A recipient provider could show a quiet "bonded sender" indicator, or simply let the system use the outcome data to improve filtering.
+
+If that arrangement works, the deposit could become a reputation mechanism with actual teeth.  It does not eliminate the need for spam filters.  Fraud, malware and compromised accounts are still fraud, malware and compromised accounts.  But it changes one part of the calculation: sending a message that people reliably reject stops being nearly free.
+
+Good systems do not need to know who the good people are.  They just make the good thing easy to do, and make the bad thing a little more expensive.
+
+[x402]: https://github.com/x402-foundation/x402
